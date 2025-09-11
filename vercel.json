@@ -1,46 +1,5 @@
 {
-  "version": 2,
-  "name": "free-image-tools",
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
-  "functions": {},
-  "rewrites": [
-    {
-      "source": "/tools/crop/",
-      "destination": "/tools/crop/index.html"
-    },
-    {
-      "source": "/tools/merge/",
-      "destination": "/tools/merge/index.html"
-    },
-    {
-      "source": "/tools/remove-object/",
-      "destination": "/tools/remove-object/index.html"
-    },
-    {
-      "source": "/tools/black-image/",
-      "destination": "/tools/black-image/index.html"
-    },
-    {
-      "source": "/tools/compress/",
-      "destination": "/tools/compress/index.html"
-    },
-    {
-      "source": "/tools/resize/",
-      "destination": "/tools/resize/index.html"
-    }
-  ]
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install"
 }
