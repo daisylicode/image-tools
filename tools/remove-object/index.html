@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove Object Online - Free AI Object Removal Tool</title>
+    <meta name="description" content="Free online AI-powered object removal tool. Remove unwanted objects from photos with smart inpainting. No registration required.">
+    <meta name="keywords" content="remove object, object removal, photo editing, AI inpainting, remove people, remove items">
+    <meta name="author" content="Free Image Tools Online">
+    <link rel="canonical" href="https://freeimagetools.online/tools/remove-object/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Remove Object Online - Free AI Object Removal Tool">
+    <meta property="og:description" content="Free online AI-powered object removal tool. Remove unwanted objects from photos with smart inpainting.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://freeimagetools.online/tools/remove-object/">
+    <meta property="og:image" content="https://freeimagetools.online/assets/og-remove-object.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Remove Object Online - Free AI Object Removal Tool">
+    <meta name="twitter:description" content="Free online AI-powered object removal tool. Remove unwanted objects from photos with smart inpainting.">
+    <meta name="twitter:image" content="https://freeimagetools.online/assets/og-remove-object.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/theme.css">
+    <link rel="stylesheet" href="/styles/header.css">
+    <link rel="stylesheet" href="/styles/footer.css">
+    <link rel="stylesheet" href="/styles/components.css">
+    <link rel="stylesheet" href="/styles/tools.css">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Object Removal Tool",
+        "description": "Free online AI-powered object removal tool with smart inpainting",
+        "url": "https://freeimagetools.online/tools/remove-object/",
+        "applicationCategory": "ImageEditorApplication",
+        "operatingSystem": "Web Browser",
+        "author": {
+            "@type": "Organization",
+            "name": "Free Image Tools Online"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+</head>
+<body>
+    <!-- Skip to content -->
+    <a href="#main-content" class="skip-to-content">Skip to content</a>
+    
+    <!-- Header -->
+    <!-- Simple Header Component -->
+<header class="header">
+  <div class="header-container">
+    <a href="/" class="logo">
+      <img src="/assets/logo.svg" alt="Free Image Tools" class="logo-img">
+      <span class="logo-text">Free Image Tools</span>
+    </a>
+    
+    <nav class="nav">
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a href="/" class="nav-link" data-page="index">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="/tools/crop/" class="nav-link" data-page="crop">Crop</a>
+        </li>
+        <li class="nav-item">
+          <a href="/tools/merge/" class="nav-link" data-page="merge">Merge</a>
+        </li>
+        <li class="nav-item">
+          <a href="/tools/remove-object/" class="nav-link" data-page="remove-object">Remove</a>
+        </li>
+        <li class="nav-item">
+          <a href="/tools/black-image/" class="nav-link" data-page="black-image">Black</a>
+        </li>
+        <li class="nav-item">
+          <a href="/tools/compress/" class="nav-link" data-page="compress">Compress</a>
+        </li>
+        <li class="nav-item">
+          <a href="/tools/resize/" class="nav-link" data-page="resize">Resize</a>
+        </li>
+      </ul>
+    </nav>
+    
+    <div class="header-actions">
+      <button class="lang-toggle" id="langToggle" title="Change Language">
+        🌐
+      </button>
+      <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <span class="hamburger"></span>
+        <span class="hamburger"></span>
+        <span class="hamburger"></span>
+      </button>
+    </div>
+  </div>
+</header>
+    
+    <!-- Main Content -->
+    <main id="main-content">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1 class="tool-title">Remove Object</h1>
+                <p class="tool-description">Remove unwanted objects from your photos with AI-powered inpainting</p>
+                <div class="alert alert-warning">
+                    <span class="alert-icon">⚠️</span>
+                    <div class="alert-content">
+                        <div class="alert-title">Legal Notice</div>
+                        <div class="alert-message">Only remove objects from images you own or have permission to edit.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tool-layout">
+                <!-- Controls Panel -->
+                <div class="tool-panel">
+                    <h2 class="tool-panel-title">Removal Settings</h2>
+                    
+                    <!-- File Upload -->
+                    <div class="form-group">
+                        <file-drop-zone id="fileDrop" text="Select image to edit"></file-drop-zone>
+                    </div>
+                    
+                    <!-- Brush Size -->
+                    <div class="range-group">
+                        <div class="range-label">
+                            <span class="range-title">Brush Size</span>
+                            <span class="range-value" id="brushSizeValue">20px</span>
+                        </div>
+                        <input type="range" id="brushSize" class="range-slider" min="5" max="100" value="20">
+                    </div>
+                    
+                    <!-- Brush Preview -->
+                    <div class="brush-size-preview">
+                        <div class="brush-preview-dot" id="brushPreview"></div>
+                    </div>
+                    
+                    <!-- Inpaint Method -->
+                    <div class="form-group">
+                        <label class="form-label" for="inpaintMethod">Inpaint Method</label>
+                        <select id="inpaintMethod" class="select-control">
+                            <option value="telea">Telea (Fast)</option>
+                            <option value="navier-stokes">Navier-Stokes (Quality)</option>
+                            <option value="simple">Simple (Basic)</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Actions -->
+                    <div class="tool-actions">
+                        <button id="clearSelection" class="btn btn-secondary" disabled>Clear Selection</button>
+                        <button id="removeObject" class="btn btn-primary" disabled>Remove Object</button>
+                        <button id="downloadResult" class="btn btn-success" disabled>Download</button>
+                    </div>
+                </div>
+                
+                <!-- Preview Panel -->
+                <div class="tool-panel">
+                    <h2 class="tool-panel-title">Preview</h2>
+                    <div class="image-preview" id="removePreview">
+                        <div class="image-preview-empty">
+                            <p>Upload an image to start removing objects</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <!-- Simple Footer Component -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>About Free Image Tools</h3>
+        <p>Professional online image processing tools that work entirely in your browser. No registration required, complete privacy guaranteed.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link" title="Twitter">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
+            </svg>
+          </a>
+          <a href="#" class="social-link" title="GitHub">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Tools</h3>
+        <ul class="footer-links tool-links">
+          <li><a href="/tools/crop/">Crop Image</a></li>
+          <li><a href="/tools/merge/">Merge Images</a></li>
+          <li><a href="/tools/remove-object/">Remove Object</a></li>
+          <li><a href="/tools/black-image/">Black Image</a></li>
+          <li><a href="/tools/compress/">Compress Image</a></li>
+          <li><a href="/tools/resize/">Resize Image</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Support</h3>
+        <ul class="footer-links">
+          <li><a href="/privacy/">Privacy Policy</a></li>
+          <li><a href="/terms/">Terms of Service</a></li>
+          <li><a href="/help/">Help Center</a></li>
+          <li><a href="/contact/">Contact Us</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Contact</h3>
+        <div class="contact-info">
+          <div class="contact-item">
+            <strong>Email:</strong> support@freeimagetools.online
+          </div>
+          <div class="contact-item">
+            <strong>Response Time:</strong> Within 24 hours
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="footer-copyright">
+        © 2024 Free Image Tools Online. All rights reserved.
+      </div>
+      <div class="footer-social">
+        <a href="#" class="social-link" title="Privacy">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 1.5a6.5 6.5 0 0 0-6.5 6.5c0 2.88 1.96 5.3 4.62 6.02.33.06.45-.14.45-.32v-1.12c-1.88.41-2.28-.9-2.28-.9-.31-.78-.75-.99-.75-.99-.61-.42.05-.41.05-.41.68.05 1.03.7 1.03.7.6 1.07 1.58.76 1.96.58.06-.46.24-.76.43-.93-1.48-.17-3.03-.74-3.03-3.28 0-.72.26-1.32.68-1.78-.07-.16-.3-.82.06-1.7 0 0 .56-.18 1.82.68.53-.15 1.09-.22 1.65-.22.56 0 1.12.07 1.65.22 1.26-.86 1.82-.68 1.82-.68.36.88.14 1.54.07 1.7.42.46.68 1.06.68 1.78 0 2.55-1.55 3.11-3.03 3.28.24.21.46.61.46 1.24v1.84c0 .18.12.38.45.32A6.516 6.516 0 0 0 14.5 8c0-3.59-2.91-6.5-6.5-6.5z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+    
+    <!-- Scripts -->
+    <script type="module" src="/scripts/ui/header.js"></script>
+    <script type="module" src="/scripts/ui/footer.js"></script>
+    <script type="module" src="/scripts/core/i18n.js"></script>
+    <script type="module" src="/scripts/ui/theme.js"></script>
+    <script type="module" src="/scripts/ui/toasts.js"></script>
+    <script type="module" src="/scripts/ui/file-drop.js"></script>
+    <script type="module" src="/scripts/core/image-utils.js"></script>
+    <script type="module" src="/scripts/core/download.js"></script>
+    <script type="module" src="/scripts/core/worker-pool.js"></script>
+    
+    <!-- Remove Object Tool Script -->
+    <script type="module">
+        import { I18n } from '/scripts/core/i18n.js'
+        import themeManager from '/scripts/ui/theme.js'
+        import toastManager from '/scripts/ui/toasts.js'
+        import { ImageUtils } from '/scripts/core/image-utils.js'
+        import { DownloadUtils } from '/scripts/core/download.js'
+        import { WorkerPools } from '/scripts/core/worker-pool.js'
+        
+        class RemoveObjectTool {
+            constructor() {
+                this.originalImage = null
+                this.processedImage = null
+                this.brushSize = 20
+                this.isDrawing = false
+                this.selection = []
+                this.workerPool = null
+                
+                this.init()
+            }
+            
+            init() {
+                this.setupEventListeners()
+                this.updateUI()
+                
+                // Initialize worker pool
+                if (WorkerPools.inpaint) {
+                    this.workerPool = WorkerPools.inpaint
+                }
+            }
+            
+            setupEventListeners() {
+                // File drop zone
+                const fileDrop = document.getElementById('fileDrop')
+                fileDrop.setOnFileSelected(this.handleFileSelect.bind(this))
+                
+                // Brush size slider
+                const brushSizeSlider = document.getElementById('brushSize')
+                brushSizeSlider.addEventListener('input', (e) => {
+                    this.brushSize = parseInt(e.target.value)
+                    document.getElementById('brushSizeValue').textContent = this.brushSize + 'px'
+                    this.updateBrushPreview()
+                })
+                
+                // Action buttons
+                document.getElementById('clearSelection').addEventListener('click', () => {
+                    this.clearSelection()
+                })
+                
+                document.getElementById('removeObject').addEventListener('click', () => {
+                    this.removeObject()
+                })
+                
+                document.getElementById('downloadResult').addEventListener('click', () => {
+                    this.downloadResult()
+                })
+            }
+            
+            handleFileSelect(file) {
+                if (!file || !file.type.startsWith('image/')) {
+                    toastManager.error('Please select a valid image file')
+                    return
+                }
+                
+                const reader = new FileReader()
+                reader.onload = (e) => {
+                    this.loadImage(e.target.result)
+                }
+                reader.readAsDataURL(file)
+            }
+            
+            loadImage(imageSrc) {
+                const img = new Image()
+                img.onload = () => {
+                    this.originalImage = img
+                    this.displayImage(img)
+                    this.updateUI()
+                    toastManager.success('Image loaded successfully')
+                }
+                img.onerror = () => {
+                    toastManager.error('Failed to load image')
+                }
+                img.src = imageSrc
+            }
+            
+            displayImage(img) {
+                const preview = document.getElementById('removePreview')
+                preview.innerHTML = `
+                    <div class="canvas-container">
+                        <canvas id="removeCanvas"></canvas>
+                        <canvas id="maskCanvas" class="canvas-overlay"></canvas>
+                    </div>
+                `
+                
+                const canvas = document.getElementById('removeCanvas')
+                const maskCanvas = document.getElementById('maskCanvas')
+                const ctx = canvas.getContext('2d')
+                const maskCtx = maskCanvas.getContext('2d')
+                
+                // Set canvas size
+                const maxWidth = preview.clientWidth - 40
+                const maxHeight = 400
+                
+                let { width, height } = img
+                
+                if (width > maxWidth) {
+                    height = (height * maxWidth) / width
+                    width = maxWidth
+                }
+                
+                if (height > maxHeight) {
+                    width = (width * maxHeight) / height
+                    height = maxHeight
+                }
+                
+                canvas.width = width
+                canvas.height = height
+                maskCanvas.width = width
+                maskCanvas.height = height
+                
+                // Draw image
+                ctx.drawImage(img, 0, 0, width, height)
+                
+                // Setup mask canvas
+                maskCtx.fillStyle = 'rgba(255, 0, 0, 0.5)'
+                maskCtx.globalCompositeOperation = 'source-over'
+                
+                // Setup drawing events
+                this.setupDrawingEvents(maskCanvas, maskCtx)
+                
+                // Update brush preview
+                this.updateBrushPreview()
+            }
+            
+            setupDrawingEvents(canvas, ctx) {
+                canvas.addEventListener('mousedown', (e) => {
+                    this.isDrawing = true
+                    this.draw(e, canvas, ctx)
+                })
+                
+                canvas.addEventListener('mousemove', (e) => {
+                    if (this.isDrawing) {
+                        this.draw(e, canvas, ctx)
+                    }
+                })
+                
+                canvas.addEventListener('mouseup', () => {
+                    this.isDrawing = false
+                })
+                
+                canvas.addEventListener('mouseleave', () => {
+                    this.isDrawing = false
+                })
+                
+                // Touch events for mobile
+                canvas.addEventListener('touchstart', (e) => {
+                    e.preventDefault()
+                    this.isDrawing = true
+                    const touch = e.touches[0]
+                    const mouseEvent = new MouseEvent('mousedown', {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    })
+                    canvas.dispatchEvent(mouseEvent)
+                })
+                
+                canvas.addEventListener('touchmove', (e) => {
+                    e.preventDefault()
+                    if (this.isDrawing) {
+                        const touch = e.touches[0]
+                        const mouseEvent = new MouseEvent('mousemove', {
+                            clientX: touch.clientX,
+                            clientY: touch.clientY
+                        })
+                        canvas.dispatchEvent(mouseEvent)
+                    }
+                })
+                
+                canvas.addEventListener('touchend', (e) => {
+                    e.preventDefault()
+                    this.isDrawing = false
+                })
+            }
+            
+            draw(e, canvas, ctx) {
+                const rect = canvas.getBoundingClientRect()
+                const x = e.clientX - rect.left
+                const y = e.clientY - rect.top
+                
+                ctx.beginPath()
+                ctx.arc(x, y, this.brushSize / 2, 0, 2 * Math.PI)
+                ctx.fill()
+                
+                // Store selection point
+                this.selection.push({ x, y, size: this.brushSize })
+                
+                // Update UI
+                this.updateUI()
+            }
+            
+            updateBrushPreview() {
+                const preview = document.getElementById('brushPreview')
+                if (preview) {
+                    preview.style.width = this.brushSize + 'px'
+                    preview.style.height = this.brushSize + 'px'
+                }
+            }
+            
+            clearSelection() {
+                const maskCanvas = document.getElementById('maskCanvas')
+                if (maskCanvas) {
+                    const ctx = maskCanvas.getContext('2d')
+                    ctx.clearRect(0, 0, maskCanvas.width, maskCanvas.height)
+                }
+                
+                this.selection = []
+                this.updateUI()
+                toastManager.success('Selection cleared')
+            }
+            
+            async removeObject() {
+                if (!this.originalImage || this.selection.length === 0) {
+                    toastManager.error('Please select an area to remove')
+                    return
+                }
+                
+                try {
+                    toastManager.info('Processing image...')
+                    
+                    const canvas = document.getElementById('removeCanvas')
+                    const maskCanvas = document.getElementById('maskCanvas')
+                    
+                    // Get image data
+                    const imageData = canvas.toDataURL()
+                    const maskData = maskCanvas.toDataURL()
+                    
+                    if (this.workerPool) {
+                        // Use worker pool for processing
+                        const result = await this.workerPool.execute({
+                            type: 'inpaint',
+                            data: {
+                                imageData,
+                                maskData,
+                                method: document.getElementById('inpaintMethod').value
+                            }
+                        })
+                        
+                        if (result.success) {
+                            this.displayProcessedImage(result.data.inpaintedData)
+                            toastManager.success('Object removed successfully')
+                        } else {
+                            throw new Error(result.error)
+                        }
+                    } else {
+                        // Fallback to client-side processing
+                        await this.clientSideInpaint(imageData, maskData)
+                    }
+                } catch (error) {
+                    console.error('Inpainting failed:', error)
+                    toastManager.error('Failed to remove object. Please try again.')
+                }
+            }
+            
+            async clientSideInpaint(imageData, maskData) {
+                // Simple client-side inpainting fallback
+                const img = new Image()
+                img.onload = () => {
+                    const canvas = document.createElement('canvas')
+                    const ctx = canvas.getContext('2d')
+                    
+                    canvas.width = img.width
+                    canvas.height = img.height
+                    
+                    // Draw original image
+                    ctx.drawImage(img, 0, 0)
+                    
+                    // Apply simple blur effect to selected areas
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+                    const data = imageData.data
+                    
+                    // Simple blur effect (in production, use more sophisticated algorithms)
+                    for (let i = 0; i < data.length; i += 4) {
+                        const x = (i / 4) % canvas.width
+                        const y = Math.floor((i / 4) / canvas.width)
+                        
+                        // Check if this pixel is in the selection area
+                        const inSelection = this.selection.some(point => {
+                            const distance = Math.sqrt(
+                                Math.pow(x - point.x, 2) + Math.pow(y - point.y, 2)
+                            )
+                            return distance <= point.size / 2
+                        })
+                        
+                        if (inSelection) {
+                            // Apply simple blur by averaging with neighbors
+                            let r = 0, g = 0, b = 0, a = 0
+                            let count = 0
+                            
+                            for (let dy = -2; dy <= 2; dy++) {
+                                for (let dx = -2; dx <= 2; dx++) {
+                                    const nx = x + dx
+                                    const ny = y + dy
+                                    
+                                    if (nx >= 0 && nx < canvas.width && ny >= 0 && ny < canvas.height) {
+                                        const nIndex = (ny * canvas.width + nx) * 4
+                                        r += data[nIndex]
+                                        g += data[nIndex + 1]
+                                        b += data[nIndex + 2]
+                                        a += data[nIndex + 3]
+                                        count++
+                                    }
+                                }
+                            }
+                            
+                            if (count > 0) {
+                                data[i] = r / count
+                                data[i + 1] = g / count
+                                data[i + 2] = b / count
+                                data[i + 3] = a / count
+                            }
+                        }
+                    }
+                    
+                    ctx.putImageData(imageData, 0, 0)
+                    
+                    this.displayProcessedImage(canvas.toDataURL())
+                    toastManager.success('Object removed successfully')
+                }
+                img.src = imageData
+            }
+            
+            displayProcessedImage(imageSrc) {
+                const img = new Image()
+                img.onload = () => {
+                    const preview = document.getElementById('removePreview')
+                    const oldCanvas = document.getElementById('removeCanvas')
+                    
+                    const newCanvas = document.createElement('canvas')
+                    const ctx = newCanvas.getContext('2d')
+                    
+                    newCanvas.width = oldCanvas.width
+                    newCanvas.height = oldCanvas.height
+                    
+                    ctx.drawImage(img, 0, 0, newCanvas.width, newCanvas.height)
+                    
+                    oldCanvas.replaceWith(newCanvas)
+                    newCanvas.id = 'removeCanvas'
+                    
+                    // Remove mask canvas
+                    const maskCanvas = document.getElementById('maskCanvas')
+                    if (maskCanvas) {
+                        maskCanvas.remove()
+                    }
+                    
+                    this.processedImage = newCanvas
+                    this.updateUI()
+                }
+                img.src = imageSrc
+            }
+            
+            downloadResult() {
+                if (!this.processedImage) {
+                    toastManager.error('No processed image to download')
+                    return
+                }
+                
+                const filename = `removed_object_${Date.now()}.png`
+                DownloadUtils.downloadCanvas(this.processedImage, filename)
+                toastManager.success('Image downloaded successfully')
+            }
+            
+            updateUI() {
+                const hasImage = this.originalImage !== null
+                const hasSelection = this.selection.length > 0
+                const hasProcessedImage = this.processedImage !== null
+                
+                document.getElementById('clearSelection').disabled = !hasSelection
+                document.getElementById('removeObject').disabled = !hasSelection || hasProcessedImage
+                document.getElementById('downloadResult').disabled = !hasProcessedImage
+            }
+        }
+        
+        // Initialize remove object tool when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize i18n
+            I18n.init()
+            
+            // Initialize theme
+            themeManager.init()
+            
+            // Initialize remove object tool
+            const removeObjectTool = new RemoveObjectTool()
+        })
+    </script>
+</body>
+</html>

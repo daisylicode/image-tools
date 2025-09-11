@@ -1,0 +1,54 @@
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Free Image Tools Online",
+  "alternateName": "免费图片工具",
+  "description": "专业免费的在线图片处理工具，支持图片裁剪、合并、对象移除、背景变黑、压缩和调整大小等功能。无需注册，完全免费。",
+  "url": "https://freeimagetools.online",
+  "applicationCategory": "PhotoApplication",
+  "operatingSystem": "Web Browser",
+  "author": {
+    "@type": "Organization",
+    "name": "Free Image Tools Online",
+    "url": "https://freeimagetools.online"
+  },
+  "creator": {
+    "@type": "Organization",
+    "name": "Free Image Tools Online",
+    "url": "https://freeimagetools.online"
+  },
+  "applicationSubCategory": "Image Editor",
+  "featureList": [
+    "图片裁剪",
+    "图片合并",
+    "对象移除",
+    "背景变黑",
+    "图片压缩",
+    "图片调整大小"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "inLanguage": "zh-CN",
+  "isAccessibleForFree": true,
+  "keywords": "图片处理, 图片编辑, 图片裁剪, 图片压缩, 图片合并, 在线工具",
+  "mainEntity": {
+    "@type": "WebPage",
+    "name": "Free Image Tools Online - 免费在线图片处理工具",
+    "description": "提供多种专业图片处理功能的免费在线工具，支持裁剪、合并、压缩、调整大小等操作。"
+  },
+  "potentialAction": {
+    "@type": "UseAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://freeimagetools.online",
+      "inLanguage": "zh-CN",
+      "actionPlatform": [
+        "https://schema.org/DesktopWebPlatform",
+        "https://schema.org/MobileWebPlatform"
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+Allow: /assets/
+Allow: /scripts/
+Allow: /styles/
+
+# Sitemap
+Sitemap: https://freeimagetools.online/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1
+
+# Disallow sensitive paths
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+
+# Disallow dynamic content
+Disallow: /*?
+Disallow: /*.json$
+Disallow: /*.xml$

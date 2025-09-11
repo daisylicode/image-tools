@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resize Image Online - Free Image Resizing Tool</title>
+    <meta name="description" content="Free online image resizing tool. Change image dimensions with aspect ratio control. Multiple formats supported.">
+    <meta name="keywords" content="resize image, image resizer, change dimensions, scale image, photo resize">
+    <meta name="author" content="Free Image Tools Online">
+    <link rel="canonical" href="https://freeimagetools.online/tools/resize/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Resize Image Online - Free Image Resizing Tool">
+    <meta property="og:description" content="Free online image resizing tool. Change image dimensions with aspect ratio control.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://freeimagetools.online/tools/resize/">
+    <meta property="og:image" content="https://freeimagetools.online/assets/og-resize.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Resize Image Online - Free Image Resizing Tool">
+    <meta name="twitter:description" content="Free online image resizing tool. Change image dimensions with aspect ratio control.">
+    <meta name="twitter:image" content="https://freeimagetools.online/assets/og-resize.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/theme.css">
+    <link rel="stylesheet" href="/styles/header.css">
+    <link rel="stylesheet" href="/styles/footer.css">
+    <link rel="stylesheet" href="/styles/components.css">
+    <link rel="stylesheet" href="/styles/tools.css">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Image Resize Tool",
+        "description": "Free online image resizing tool with aspect ratio control",
+        "url": "https://freeimagetools.online/tools/resize/",
+        "applicationCategory": "ImageEditorApplication",
+        "operatingSystem": "Web Browser",
+        "author": {
+            "@type": "Organization",
+            "name": "Free Image Tools Online"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+</head>
+<body>
+    <!-- Skip to content -->
+    <a href="#main-content" class="skip-to-content">Skip to content</a>
+    
+    <!-- Header -->
+    <!-- Simple Header Component -->
+<header class="header">
+  <div class="header-container">
+    <a href="/" class="logo">
+      <img src="/assets/logo.svg" alt="Free Image Tools" class="logo-img">
+      <span class="logo-text">Free Image Tools</span>
+    </a>
+    
+    <nav class="nav">
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a href="/" class="nav-link" data-page="index">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="/tools/crop/" class="nav-link" data-page="crop">Crop</a>
+        </li>
+        <li class="nav-item">
+          <a href="/tools/merge/" class="nav-link" data-page="merge">Merge</a>
+        </li>
+        <li class="nav-item">
+          <a href="/tools/remove-object/" class="nav-link" data-page="remove-object">Remove</a>
+        </li>
+        <li class="nav-item">
+          <a href="/tools/black-image/" class="nav-link" data-page="black-image">Black</a>
+        </li>
+        <li class="nav-item">
+          <a href="/tools/compress/" class="nav-link" data-page="compress">Compress</a>
+        </li>
+        <li class="nav-item">
+          <a href="/tools/resize/" class="nav-link" data-page="resize">Resize</a>
+        </li>
+      </ul>
+    </nav>
+    
+    <div class="header-actions">
+      <button class="lang-toggle" id="langToggle" title="Change Language">
+        🌐
+      </button>
+      <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <span class="hamburger"></span>
+        <span class="hamburger"></span>
+        <span class="hamburger"></span>
+      </button>
+    </div>
+  </div>
+</header>
+    
+    <!-- Main Content -->
+    <main id="main-content">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1 class="tool-title">Resize Image</h1>
+                <p class="tool-description">Change image dimensions with precise control</p>
+            </div>
+            
+            <div class="tool-layout">
+                <!-- Controls Panel -->
+                <div class="tool-panel">
+                    <h2 class="tool-panel-title">Resize Settings</h2>
+                    
+                    <!-- File Upload -->
+                    <div class="form-group">
+                        <file-drop-zone id="fileDrop" text="Select image to resize"></file-drop-zone>
+                    </div>
+                    
+                    <!-- Resize Mode -->
+                    <div class="form-group">
+                        <label class="form-label">Resize Mode</label>
+                        <div class="resize-modes">
+                            <button class="resize-mode-btn active" data-mode="pixels">Pixels</button>
+                            <button class="resize-mode-btn" data-mode="percentage">Percentage</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Pixels Mode -->
+                    <div id="pixelsMode" class="resize-dimensions">
+                        <div class="form-group">
+                            <label class="form-label" for="resizeWidth">Width (px)</label>
+                            <input type="number" id="resizeWidth" class="form-control" placeholder="Auto" min="1">
+                        </div>
+                        <div class="resize-lock">
+                            <button id="aspectRatioLock" class="resize-lock-btn active" title="Lock aspect ratio">
+                                🔒
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="resizeHeight">Height (px)</label>
+                            <input type="number" id="resizeHeight" class="form-control" placeholder="Auto" min="1">
+                        </div>
+                    </div>
+                    
+                    <!-- Percentage Mode -->
+                    <div id="percentageMode" class="resize-dimensions" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label" for="resizePercentage">Scale (%)</label>
+                            <input type="number" id="resizePercentage" class="form-control" value="100" min="1" max="500">
+                        </div>
+                    </div>
+                    
+                    <!-- Output Format -->
+                    <div class="form-group">
+                        <label class="form-label" for="outputFormat">Output Format</label>
+                        <select id="outputFormat" class="select-control">
+                            <option value="png">PNG</option>
+                            <option value="jpeg">JPEG</option>
+                            <option value="webp">WebP</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Actions -->
+                    <div class="tool-actions">
+                        <button id="resetResize" class="btn btn-secondary" disabled>Reset</button>
+                        <button id="applyResize" class="btn btn-primary" disabled>Apply Resize</button>
+                        <button id="downloadResized" class="btn btn-success" disabled>Download</button>
+                    </div>
+                </div>
+                
+                <!-- Preview Panel -->
+                <div class="tool-panel">
+                    <h2 class="tool-panel-title">Preview</h2>
+                    <div class="image-preview" id="resizePreview">
+                        <div class="image-preview-empty">
+                            <p>Upload an image to resize</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Image Info -->
+                    <div id="imageInfo" class="image-preview-info" style="display: none;">
+                        <div class="compress-stats">
+                            <div class="compress-stat">
+                                <span class="compress-stat-label">Original Size</span>
+                                <span class="compress-stat-value" id="originalSize">-</span>
+                            </div>
+                            <div class="compress-stat">
+                                <span class="compress-stat-label">Resized Size</span>
+                                <span class="compress-stat-value" id="resizedSize">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <!-- Simple Footer Component -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>About Free Image Tools</h3>
+        <p>Professional online image processing tools that work entirely in your browser. No registration required, complete privacy guaranteed.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link" title="Twitter">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
+            </svg>
+          </a>
+          <a href="#" class="social-link" title="GitHub">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Tools</h3>
+        <ul class="footer-links tool-links">
+          <li><a href="/tools/crop/">Crop Image</a></li>
+          <li><a href="/tools/merge/">Merge Images</a></li>
+          <li><a href="/tools/remove-object/">Remove Object</a></li>
+          <li><a href="/tools/black-image/">Black Image</a></li>
+          <li><a href="/tools/compress/">Compress Image</a></li>
+          <li><a href="/tools/resize/">Resize Image</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Support</h3>
+        <ul class="footer-links">
+          <li><a href="/privacy/">Privacy Policy</a></li>
+          <li><a href="/terms/">Terms of Service</a></li>
+          <li><a href="/help/">Help Center</a></li>
+          <li><a href="/contact/">Contact Us</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Contact</h3>
+        <div class="contact-info">
+          <div class="contact-item">
+            <strong>Email:</strong> support@freeimagetools.online
+          </div>
+          <div class="contact-item">
+            <strong>Response Time:</strong> Within 24 hours
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="footer-copyright">
+        © 2024 Free Image Tools Online. All rights reserved.
+      </div>
+      <div class="footer-social">
+        <a href="#" class="social-link" title="Privacy">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 1.5a6.5 6.5 0 0 0-6.5 6.5c0 2.88 1.96 5.3 4.62 6.02.33.06.45-.14.45-.32v-1.12c-1.88.41-2.28-.9-2.28-.9-.31-.78-.75-.99-.75-.99-.61-.42.05-.41.05-.41.68.05 1.03.7 1.03.7.6 1.07 1.58.76 1.96.58.06-.46.24-.76.43-.93-1.48-.17-3.03-.74-3.03-3.28 0-.72.26-1.32.68-1.78-.07-.16-.3-.82.06-1.7 0 0 .56-.18 1.82.68.53-.15 1.09-.22 1.65-.22.56 0 1.12.07 1.65.22 1.26-.86 1.82-.68 1.82-.68.36.88.14 1.54.07 1.7.42.46.68 1.06.68 1.78 0 2.55-1.55 3.11-3.03 3.28.24.21.46.61.46 1.24v1.84c0 .18.12.38.45.32A6.516 6.516 0 0 0 14.5 8c0-3.59-2.91-6.5-6.5-6.5z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+    
+    <!-- Scripts -->
+    <script type="module" src="/scripts/ui/header.js"></script>
+    <script type="module" src="/scripts/ui/footer.js"></script>
+    <script type="module" src="/scripts/core/i18n.js"></script>
+    <script type="module" src="/scripts/ui/theme.js"></script>
+    <script type="module" src="/scripts/ui/toasts.js"></script>
+    <script type="module" src="/scripts/ui/file-drop.js"></script>
+    <script type="module" src="/scripts/core/image-utils.js"></script>
+    <script type="module" src="/scripts/core/download.js"></script>
+    <script type="module" src="/scripts/core/worker-pool.js"></script>
+    
+    <!-- Resize Tool Script -->
+    <script type="module">
+        import { I18n } from '/scripts/core/i18n.js'
+        import themeManager from '/scripts/ui/theme.js'
+        import toastManager from '/scripts/ui/toasts.js'
+        import { ImageUtils } from '/scripts/core/image-utils.js'
+        import { DownloadUtils } from '/scripts/core/download.js'
+        import { WorkerPools } from '/scripts/core/worker-pool.js'
+        
+        class ResizeTool {
+            constructor() {
+                this.originalImage = null
+                this.resizedImage = null
+                this.currentMode = 'pixels'
+                this.aspectRatio = 1
+                this.maintainAspectRatio = true
+                this.workerPool = null
+                
+                this.init()
+            }
+            
+            init() {
+                this.setupEventListeners()
+                this.updateUI()
+                
+                // Initialize worker pool
+                if (WorkerPools.resize) {
+                    this.workerPool = WorkerPools.resize
+                }
+            }
+            
+            setupEventListeners() {
+                // File drop zone
+                const fileDrop = document.getElementById('fileDrop')
+                fileDrop.setOnFileSelected(this.handleFileSelect.bind(this))
+                
+                // Mode buttons
+                document.querySelectorAll('.resize-mode-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        this.setMode(btn.dataset.mode)
+                    })
+                })
+                
+                // Aspect ratio lock
+                document.getElementById('aspectRatioLock').addEventListener('click', () => {
+                    this.toggleAspectRatioLock()
+                })
+                
+                // Dimension inputs
+                const widthInput = document.getElementById('resizeWidth')
+                const heightInput = document.getElementById('resizeHeight')
+                const percentageInput = document.getElementById('resizePercentage')
+                
+                widthInput.addEventListener('input', () => {
+                    if (this.maintainAspectRatio && this.currentMode === 'pixels') {
+                        this.updateHeightFromWidth()
+                    }
+                })
+                
+                heightInput.addEventListener('input', () => {
+                    if (this.maintainAspectRatio && this.currentMode === 'pixels') {
+                        this.updateWidthFromHeight()
+                    }
+                })
+                
+                percentageInput.addEventListener('input', () => {
+                    this.updateDimensionsFromPercentage()
+                })
+                
+                // Action buttons
+                document.getElementById('resetResize').addEventListener('click', () => {
+                    this.resetResize()
+                })
+                
+                document.getElementById('applyResize').addEventListener('click', () => {
+                    this.applyResize()
+                })
+                
+                document.getElementById('downloadResized').addEventListener('click', () => {
+                    this.downloadResized()
+                })
+            }
+            
+            handleFileSelect(file) {
+                if (!file || !file.type.startsWith('image/')) {
+                    toastManager.error('Please select a valid image file')
+                    return
+                }
+                
+                const reader = new FileReader()
+                reader.onload = (e) => {
+                    this.loadImage(e.target.result, file)
+                }
+                reader.readAsDataURL(file)
+            }
+            
+            loadImage(imageSrc, file) {
+                const img = new Image()
+                img.onload = () => {
+                    this.originalImage = img
+                    this.originalFile = file
+                    this.aspectRatio = img.width / img.height
+                    
+                    // Set initial values
+                    document.getElementById('resizeWidth').value = img.width
+                    document.getElementById('resizeHeight').value = img.height
+                    
+                    this.displayImage(img)
+                    this.updateImageInfo(img.width, img.height)
+                    this.updateUI()
+                    toastManager.success('Image loaded successfully')
+                }
+                img.onerror = () => {
+                    toastManager.error('Failed to load image')
+                }
+                img.src = imageSrc
+            }
+            
+            displayImage(img) {
+                const preview = document.getElementById('resizePreview')
+                preview.innerHTML = `
+                    <div class="canvas-container">
+                        <canvas id="resizeCanvas"></canvas>
+                    </div>
+                `
+                
+                const canvas = document.getElementById('resizeCanvas')
+                const ctx = canvas.getContext('2d')
+                
+                // Set canvas size
+                const maxWidth = preview.clientWidth - 40
+                const maxHeight = 400
+                
+                let { width, height } = img
+                
+                if (width > maxWidth) {
+                    height = (height * maxWidth) / width
+                    width = maxWidth
+                }
+                
+                if (height > maxHeight) {
+                    width = (width * maxHeight) / height
+                    height = maxHeight
+                }
+                
+                canvas.width = width
+                canvas.height = height
+                
+                // Draw image
+                ctx.drawImage(img, 0, 0, width, height)
+            }
+            
+            setMode(mode) {
+                this.currentMode = mode
+                
+                // Update button states
+                document.querySelectorAll('.resize-mode-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.mode === mode)
+                })
+                
+                // Show/hide mode controls
+                document.getElementById('pixelsMode').style.display = mode === 'pixels' ? 'grid' : 'none'
+                document.getElementById('percentageMode').style.display = mode === 'percentage' ? 'block' : 'none'
+            }
+            
+            toggleAspectRatioLock() {
+                this.maintainAspectRatio = !this.maintainAspectRatio
+                const lockBtn = document.getElementById('aspectRatioLock')
+                lockBtn.classList.toggle('active', this.maintainAspectRatio)
+                lockBtn.textContent = this.maintainAspectRatio ? '🔒' : '🔓'
+            }
+            
+            updateHeightFromWidth() {
+                const width = parseInt(document.getElementById('resizeWidth').value)
+                if (!width || !this.originalImage) return
+                
+                const height = Math.round(width / this.aspectRatio)
+                document.getElementById('resizeHeight').value = height
+            }
+            
+            updateWidthFromHeight() {
+                const height = parseInt(document.getElementById('resizeHeight').value)
+                if (!height || !this.originalImage) return
+                
+                const width = Math.round(height * this.aspectRatio)
+                document.getElementById('resizeWidth').value = width
+            }
+            
+            updateDimensionsFromPercentage() {
+                const percentage = parseInt(document.getElementById('resizePercentage').value)
+                if (!percentage || !this.originalImage) return
+                
+                const width = Math.round(this.originalImage.width * percentage / 100)
+                const height = Math.round(this.originalImage.height * percentage / 100)
+                
+                document.getElementById('resizeWidth').value = width
+                document.getElementById('resizeHeight').value = height
+            }
+            
+            updateImageInfo(width, height) {
+                document.getElementById('originalSize').textContent = `${this.originalImage.width} × ${this.originalImage.height}`
+                document.getElementById('resizedSize').textContent = `${width} × ${height}`
+                document.getElementById('imageInfo').style.display = 'block'
+            }
+            
+            resetResize() {
+                if (!this.originalImage) return
+                
+                document.getElementById('resizeWidth').value = this.originalImage.width
+                document.getElementById('resizeHeight').value = this.originalImage.height
+                document.getElementById('resizePercentage').value = 100
+                
+                this.updateImageInfo(this.originalImage.width, this.originalImage.height)
+                this.displayImage(this.originalImage)
+                
+                // Reset resized image
+                this.resizedImage = null
+                this.updateUI()
+                
+                toastManager.success('Resize reset to original size')
+            }
+            
+            async applyResize() {
+                if (!this.originalImage) {
+                    toastManager.error('Please select an image first')
+                    return
+                }
+                
+                let newWidth, newHeight
+                
+                if (this.currentMode === 'pixels') {
+                    newWidth = parseInt(document.getElementById('resizeWidth').value)
+                    newHeight = parseInt(document.getElementById('resizeHeight').value)
+                } else {
+                    const percentage = parseInt(document.getElementById('resizePercentage').value)
+                    newWidth = Math.round(this.originalImage.width * percentage / 100)
+                    newHeight = Math.round(this.originalImage.height * percentage / 100)
+                }
+                
+                if (!newWidth || !newHeight || newWidth <= 0 || newHeight <= 0) {
+                    toastManager.error('Please enter valid dimensions')
+                    return
+                }
+                
+                try {
+                    toastManager.info('Resizing image...')
+                    
+                    const format = document.getElementById('outputFormat').value
+                    
+                    if (this.workerPool) {
+                        // Use worker pool for resizing
+                        const result = await this.workerPool.execute({
+                            type: 'resize',
+                            data: {
+                                imageData: this.originalImage.src,
+                                width: newWidth,
+                                height: newHeight,
+                                maintainAspectRatio: false,
+                                format
+                            }
+                        })
+                        
+                        if (result.success) {
+                            this.displayResizedImage(result.data.resizedData, result.data)
+                            toastManager.success('Image resized successfully')
+                        } else {
+                            throw new Error(result.error)
+                        }
+                    } else {
+                        // Fallback to client-side resizing
+                        await this.clientSideResize(newWidth, newHeight, format)
+                    }
+                } catch (error) {
+                    console.error('Resize failed:', error)
+                    toastManager.error('Failed to resize image. Please try again.')
+                }
+            }
+            
+            async clientSideResize(newWidth, newHeight, format) {
+                const canvas = document.createElement('canvas')
+                const ctx = canvas.getContext('2d')
+                
+                canvas.width = newWidth
+                canvas.height = newHeight
+                
+                // High quality resizing
+                ctx.imageSmoothingEnabled = true
+                ctx.imageSmoothingQuality = 'high'
+                
+                // Draw resized image
+                ctx.drawImage(this.originalImage, 0, 0, newWidth, newHeight)
+                
+                // Convert to blob
+                const blob = await new Promise((resolve) => {
+                    canvas.toBlob(resolve, `image/${format}`)
+                })
+                
+                // Convert to data URL
+                const resizedData = await new Promise((resolve) => {
+                    const reader = new FileReader()
+                    reader.onload = () => resolve(reader.result)
+                    reader.readAsDataURL(blob)
+                })
+                
+                this.displayResizedImage(resizedData, {
+                    originalWidth: this.originalImage.width,
+                    originalHeight: this.originalImage.height,
+                    newWidth,
+                    newHeight,
+                    format
+                })
+                
+                toastManager.success('Image resized successfully')
+            }
+            
+            displayResizedImage(resizedData, stats) {
+                const img = new Image()
+                img.onload = () => {
+                    // Update preview
+                    this.displayImage(img)
+                    
+                    // Store resized image
+                    this.resizedImage = img
+                    this.resizedData = resizedData
+                    this.resizedStats = stats
+                    
+                    // Update image info
+                    this.updateImageInfo(stats.newWidth, stats.newHeight)
+                    this.updateUI()
+                }
+                img.src = resizedData
+            }
+            
+            downloadResized() {
+                if (!this.resizedData) {
+                    toastManager.error('No resized image to download')
+                    return
+                }
+                
+                const format = document.getElementById('outputFormat').value
+                const filename = `resized_image_${Date.now()}.${format === 'jpeg' ? 'jpg' : format}`
+                
+                // Convert data URL to blob
+                const blob = DownloadUtils.dataURLToBlob(this.resizedData)
+                DownloadUtils.downloadFile(blob, filename)
+                
+                toastManager.success('Image downloaded successfully')
+            }
+            
+            updateUI() {
+                const hasImage = this.originalImage !== null
+                const hasResized = this.resizedImage !== null
+                
+                document.getElementById('resetResize').disabled = !hasImage
+                document.getElementById('applyResize').disabled = !hasImage
+                document.getElementById('downloadResized').disabled = !hasResized
+            }
+        }
+        
+        // Initialize resize tool when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize i18n
+            I18n.init()
+            
+            // Initialize theme
+            themeManager.init()
+            
+            // Initialize resize tool
+            const resizeTool = new ResizeTool()
+        })
+    </script>
+</body>
+</html>

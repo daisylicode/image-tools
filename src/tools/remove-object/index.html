@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove Object Online - Free Image Tools</title>
+    <meta name="description" content="Remove unwanted objects from images. Free online object removal tool with AI-powered inpainting.">
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/theme.css">
+    <link rel="stylesheet" href="/styles/components.css">
+</head>
+<body>
+    <header id="header"></header>
+    
+    <main class="tool-page">
+        <div class="container">
+            <div class="tool-header">
+                <h1>Remove Object</h1>
+                <p>Remove unwanted objects from your images</p>
+            </div>
+            
+            <div class="legal-notice">
+                <h4>⚠️ Legal Notice</h4>
+                <p>Only remove objects from images you own or have permission to edit. This tool is for legitimate image editing purposes only.</p>
+            </div>
+            
+            <div class="tool-content">
+                <div class="tool-controls">
+                    <image-uploader id="imageUploader"></image-uploader>
+                    
+                    <div class="controls-panel" id="controlsPanel" style="display: none;">
+                        <div class="form-group">
+                            <label for="brushSize">Brush Size</label>
+                            <input type="range" id="brushSize" min="5" max="50" value="20">
+                            <span id="brushSizeValue">20px</span>
+                        </div>
+                        
+                        <div class="button-group">
+                            <button class="btn btn-primary" id="removeBtn">Remove Object</button>
+                            <button class="btn btn-secondary" id="resetBtn">Reset</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tool-preview">
+                    <div class="preview-container" id="previewContainer" style="display: none;">
+                        <h3>Mark Area to Remove</h3>
+                        <canvas id="removeCanvas" style="max-width: 100%; height: auto; border: 1px solid var(--border-color);"></canvas>
+                        <p style="margin-top: 1rem; color: var(--text-muted);">Click and drag to mark the area you want to remove</p>
+                    </div>
+                    
+                    <div class="result-container" id="resultContainer" style="display: none;">
+                        <h3>Result</h3>
+                        <img id="resultImage" alt="Processed image">
+                        <div class="download-section">
+                            <button class="btn btn-primary" id="downloadBtn">📥 Download</button>
+                            <button class="btn btn-secondary" id="newImageBtn">🖼️ New Image</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer id="footer"></footer>
+    
+    <script type="module" src="/scripts/components/header.js"></script>
+    <script type="module" src="/scripts/components/footer.js"></script>
+    <script type="module" src="/scripts/components/image-uploader.js"></script>
+    <script type="module" src="/scripts/components/theme-toggle.js"></script>
+    <script type="module" src="/scripts/analytics.js"></script>
+    <script type="module" src="/scripts/utils/image-utils.js"></script>
+    <script type="module" src="/scripts/utils/canvas-utils.js"></script>
+    <script type="module" src="/scripts/utils/download-utils.js"></script>
+</body>
+</html>

@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Image Online - Free Image Cropping Tool</title>
+    <meta name="description" content="Free online image cropping tool. Crop images to exact dimensions with aspect ratio presets. No registration required.">
+    <meta name="keywords" content="crop image, image cropper, online crop tool, free crop image, resize crop">
+    <meta name="author" content="Free Image Tools Online">
+    <link rel="canonical" href="https://freeimagetools.online/tools/crop/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Crop Image Online - Free Image Cropping Tool">
+    <meta property="og:description" content="Free online image cropping tool. Crop images to exact dimensions with aspect ratio presets.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://freeimagetools.online/tools/crop/">
+    <meta property="og:image" content="https://freeimagetools.online/assets/og-crop.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Crop Image Online - Free Image Cropping Tool">
+    <meta name="twitter:description" content="Free online image cropping tool. Crop images to exact dimensions with aspect ratio presets.">
+    <meta name="twitter:image" content="https://freeimagetools.online/assets/og-crop.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/theme.css">
+    <link rel="stylesheet" href="/styles/header.css">
+    <link rel="stylesheet" href="/styles/footer.css">
+    <link rel="stylesheet" href="/styles/components.css">
+    <link rel="stylesheet" href="/styles/tools.css">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Image Crop Tool",
+        "description": "Free online image cropping tool with aspect ratio presets",
+        "url": "https://freeimagetools.online/tools/crop/",
+        "applicationCategory": "ImageEditorApplication",
+        "operatingSystem": "Web Browser",
+        "author": {
+            "@type": "Organization",
+            "name": "Free Image Tools Online"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+</head>
+<body>
+    <!-- Skip to content -->
+    <a href="#main-content" class="skip-to-content">Skip to content</a>
+    
+    <!-- Header -->
+    <header class="header">
+      <div class="header-container">
+        <a href="/" class="logo">
+          <img src="/assets/logo.svg" alt="Free Image Tools" class="logo-img">
+          <span class="logo-text">Free Image Tools</span>
+        </a>
+        
+        <nav class="nav">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="/" class="nav-link" data-page="index">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="/tools/crop/" class="nav-link active" data-page="crop">Crop</a>
+            </li>
+            <li class="nav-item">
+              <a href="/tools/merge/" class="nav-link" data-page="merge">Merge</a>
+            </li>
+            <li class="nav-item">
+              <a href="/tools/remove-object/" class="nav-link" data-page="remove-object">Remove</a>
+            </li>
+            <li class="nav-item">
+              <a href="/tools/black-image/" class="nav-link" data-page="black-image">Black</a>
+            </li>
+            <li class="nav-item">
+              <a href="/tools/compress/" class="nav-link" data-page="compress">Compress</a>
+            </li>
+            <li class="nav-item">
+              <a href="/tools/resize/" class="nav-link" data-page="resize">Resize</a>
+            </li>
+          </ul>
+        </nav>
+        
+        <div class="header-actions">
+          <button class="lang-toggle" id="langToggle" title="Change Language">
+            🌐
+          </button>
+          <button class="mobile-menu-toggle" id="mobileMenuToggle">
+            <span class="hamburger"></span>
+            <span class="hamburger"></span>
+            <span class="hamburger"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main id="main-content">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1 class="tool-title">Crop Image</h1>
+                <p class="tool-description">Crop your image to desired dimensions with precise control</p>
+            </div>
+            
+            <div class="tool-layout">
+                <!-- Controls Panel -->
+                <div class="tool-panel">
+                    <h2 class="tool-panel-title">Crop Settings</h2>
+                    
+                    <!-- File Upload -->
+                    <div class="form-group">
+                        <file-drop-zone id="fileDrop" text="Select image to crop"></file-drop-zone>
+                    </div>
+                    
+                    <!-- Aspect Ratio -->
+                    <div class="form-group">
+                        <label class="form-label">Aspect Ratio</label>
+                        <div class="aspect-ratio-buttons">
+                            <button class="aspect-ratio-btn active" data-ratio="free">Free</button>
+                            <button class="aspect-ratio-btn" data-ratio="1:1">1:1</button>
+                            <button class="aspect-ratio-btn" data-ratio="4:3">4:3</button>
+                            <button class="aspect-ratio-btn" data-ratio="16:9">16:9</button>
+                            <button class="aspect-ratio-btn" data-ratio="9:16">9:16</button>
+                            <button class="aspect-ratio-btn" data-ratio="3:2">3:2</button>
+                            <button class="aspect-ratio-btn" data-ratio="2:3">2:3</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Dimensions -->
+                    <div class="crop-controls">
+                        <div class="form-group">
+                            <label class="form-label" for="cropWidth">Width (px)</label>
+                            <input type="number" id="cropWidth" class="form-control" placeholder="Auto" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="cropHeight">Height (px)</label>
+                            <input type="number" id="cropHeight" class="form-control" placeholder="Auto" min="1">
+                        </div>
+                    </div>
+                    
+                    <!-- Maintain Aspect Ratio -->
+                    <div class="form-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="maintainRatio" class="checkbox-input" checked>
+                            <span class="checkbox-label">Maintain Aspect Ratio</span>
+                        </label>
+                    </div>
+                    
+                    <!-- Actions -->
+                    <div class="tool-actions">
+                        <button id="resetCrop" class="btn btn-secondary" disabled>Reset</button>
+                        <button id="applyCrop" class="btn btn-primary" disabled>Apply Crop</button>
+                        <button id="downloadCrop" class="btn btn-success" disabled>Download</button>
+                    </div>
+                </div>
+                
+                <!-- Preview Panel -->
+                <div class="tool-panel">
+                    <h2 class="tool-panel-title">Preview</h2>
+                    <div class="image-preview" id="cropPreview">
+                        <div class="image-preview-empty">
+                            <p>Upload an image to start cropping</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Image Info -->
+                    <div id="imageInfo" class="image-preview-info" style="display: none;">
+                        <div class="compress-stats">
+                            <div class="compress-stat">
+                                <span class="compress-stat-label">Original Size</span>
+                                <span class="compress-stat-value" id="originalSize">-</span>
+                            </div>
+                            <div class="compress-stat">
+                                <span class="compress-stat-label">Cropped Size</span>
+                                <span class="compress-stat-value" id="croppedSize">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <app-footer></app-footer>
+    
+    <!-- Scripts -->
+    <script type="module" src="/scripts/ui/header.js"></script>
+    <script type="module" src="/scripts/ui/footer.js"></script>
+    <script type="module" src="/scripts/core/i18n.js"></script>
+    <script type="module" src="/scripts/ui/theme.js"></script>
+    <script type="module" src="/scripts/ui/toasts.js"></script>
+    <script type="module" src="/scripts/ui/file-drop.js"></script>
+    <script type="module" src="/scripts/core/image-utils.js"></script>
+    <script type="module" src="/scripts/core/download.js"></script>
+    
+    <!-- Crop Tool Script -->
+    <script type="module">
+        import { I18n } from '/scripts/core/i18n.js'
+        import themeManager from '/scripts/ui/theme.js'
+        import toastManager from '/scripts/ui/toasts.js'
+        import { ImageUtils } from '/scripts/core/image-utils.js'
+        import { DownloadUtils } from '/scripts/core/download.js'
+        
+        class CropTool {
+            constructor() {
+                this.originalImage = null
+                this.croppedImage = null
+                this.currentAspectRatio = 'free'
+                this.maintainRatio = true
+                this.cropData = null
+                
+                this.init()
+            }
+            
+            init() {
+                this.setupEventListeners()
+                this.updateUI()
+            }
+            
+            setupEventListeners() {
+                // File drop zone
+                const fileDrop = document.getElementById('fileDrop')
+                fileDrop.setOnFileSelected(this.handleFileSelect.bind(this))
+                
+                // Aspect ratio buttons
+                document.querySelectorAll('.aspect-ratio-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        this.setAspectRatio(btn.dataset.ratio)
+                    })
+                })
+                
+                // Dimension inputs
+                const widthInput = document.getElementById('cropWidth')
+                const heightInput = document.getElementById('cropHeight')
+                
+                widthInput.addEventListener('input', () => {
+                    if (this.maintainRatio && this.currentAspectRatio !== 'free') {
+                        this.updateHeightFromWidth()
+                    }
+                    this.updateCropPreview()
+                })
+                
+                heightInput.addEventListener('input', () => {
+                    if (this.maintainRatio && this.currentAspectRatio !== 'free') {
+                        this.updateWidthFromHeight()
+                    }
+                    this.updateCropPreview()
+                })
+                
+                // Maintain ratio checkbox
+                document.getElementById('maintainRatio').addEventListener('change', (e) => {
+                    this.maintainRatio = e.target.checked
+                })
+                
+                // Action buttons
+                document.getElementById('resetCrop').addEventListener('click', () => {
+                    this.resetCrop()
+                })
+                
+                document.getElementById('applyCrop').addEventListener('click', () => {
+                    this.applyCrop()
+                })
+                
+                document.getElementById('downloadCrop').addEventListener('click', () => {
+                    this.downloadCroppedImage()
+                })
+            }
+            
+            handleFileSelect(file) {
+                if (!file || !file.type.startsWith('image/')) {
+                    toastManager.error('Please select a valid image file')
+                    return
+                }
+                
+                const reader = new FileReader()
+                reader.onload = (e) => {
+                    this.loadImage(e.target.result)
+                }
+                reader.readAsDataURL(file)
+            }
+            
+            loadImage(imageSrc) {
+                const img = new Image()
+                img.onload = () => {
+                    this.originalImage = img
+                    this.displayImage(img)
+                    this.updateUI()
+                    toastManager.success('Image loaded successfully')
+                }
+                img.onerror = () => {
+                    toastManager.error('Failed to load image')
+                }
+                img.src = imageSrc
+            }
+            
+            displayImage(img) {
+                const preview = document.getElementById('cropPreview')
+                preview.innerHTML = `
+                    <div class="canvas-container">
+                        <canvas id="cropCanvas"></canvas>
+                    </div>
+                `
+                
+                const canvas = document.getElementById('cropCanvas')
+                const ctx = canvas.getContext('2d')
+                
+                // Set canvas size
+                const maxWidth = preview.clientWidth - 40
+                const maxHeight = 400
+                
+                let { width, height } = img
+                
+                if (width > maxWidth) {
+                    height = (height * maxWidth) / width
+                    width = maxWidth
+                }
+                
+                if (height > maxHeight) {
+                    width = (width * maxHeight) / height
+                    height = maxHeight
+                }
+                
+                canvas.width = width
+                canvas.height = height
+                
+                // Draw image
+                ctx.drawImage(img, 0, 0, width, height)
+                
+                // Update image info
+                this.updateImageInfo(img.width, img.height)
+                
+                // Setup crop overlay
+                this.setupCropOverlay(canvas, img)
+            }
+            
+            setupCropOverlay(canvas, img) {
+                // Create crop overlay
+                const overlay = document.createElement('div')
+                overlay.className = 'canvas-overlay'
+                overlay.style.position = 'absolute'
+                overlay.style.top = '0'
+                overlay.style.left = '0'
+                overlay.style.width = canvas.width + 'px'
+                overlay.style.height = canvas.height + 'px'
+                overlay.style.border = '2px solid #3b82f6'
+                overlay.style.cursor = 'move'
+                overlay.style.backgroundColor = 'rgba(59, 130, 246, 0.1)'
+                
+                canvas.parentElement.appendChild(overlay)
+                
+                // Setup drag functionality
+                this.setupCropDrag(overlay, canvas, img)
+            }
+            
+            setupCropDrag(overlay, canvas, img) {
+                let isDragging = false
+                let startX, startY
+                let cropX = 0, cropY = 0
+                let cropWidth = canvas.width
+                let cropHeight = canvas.height
+                
+                overlay.addEventListener('mousedown', (e) => {
+                    isDragging = true
+                    startX = e.clientX - cropX
+                    startY = e.clientY - cropY
+                    overlay.style.cursor = 'grabbing'
+                })
+                
+                document.addEventListener('mousemove', (e) => {
+                    if (!isDragging) return
+                    
+                    cropX = e.clientX - startX
+                    cropY = e.clientY - startY
+                    
+                    // Constrain to canvas bounds
+                    cropX = Math.max(0, Math.min(cropX, canvas.width - cropWidth))
+                    cropY = Math.max(0, Math.min(cropY, canvas.height - cropHeight))
+                    
+                    overlay.style.left = cropX + 'px'
+                    overlay.style.top = cropY + 'px'
+                    
+                    this.updateCropData(cropX, cropY, cropWidth, cropHeight)
+                })
+                
+                document.addEventListener('mouseup', () => {
+                    isDragging = false
+                    overlay.style.cursor = 'move'
+                })
+                
+                // Initialize crop data
+                this.cropData = { x: cropX, y: cropY, width: cropWidth, height: cropHeight }
+            }
+            
+            updateCropData(x, y, width, height) {
+                this.cropData = { x, y, width, height }
+                
+                // Update dimension inputs
+                document.getElementById('cropWidth').value = Math.round(width)
+                document.getElementById('cropHeight').value = Math.round(height)
+                
+                // Update cropped size info
+                const scaleX = this.originalImage.width / document.getElementById('cropCanvas').width
+                const scaleY = this.originalImage.height / document.getElementById('cropCanvas').height
+                
+                const actualWidth = Math.round(width * scaleX)
+                const actualHeight = Math.round(height * scaleY)
+                
+                document.getElementById('croppedSize').textContent = `${actualWidth} × ${actualHeight}`
+            }
+            
+            setAspectRatio(ratio) {
+                this.currentAspectRatio = ratio
+                
+                // Update button states
+                document.querySelectorAll('.aspect-ratio-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.ratio === ratio)
+                })
+                
+                // Update dimensions if we have an image
+                if (this.originalImage && this.cropData) {
+                    this.applyAspectRatio()
+                }
+            }
+            
+            applyAspectRatio() {
+                if (this.currentAspectRatio === 'free') return
+                
+                const ratios = {
+                    '1:1': 1,
+                    '4:3': 4/3,
+                    '16:9': 16/9,
+                    '9:16': 9/16,
+                    '3:2': 3/2,
+                    '2:3': 2/3
+                }
+                
+                const ratio = ratios[this.currentAspectRatio]
+                if (!ratio) return
+                
+                const canvas = document.getElementById('cropCanvas')
+                let { width, height } = this.cropData
+                
+                if (this.currentAspectRatio.includes('16') || this.currentAspectRatio.includes('9')) {
+                    // Landscape or portrait
+                    if (width / height > ratio) {
+                        width = height * ratio
+                    } else {
+                        height = width / ratio
+                    }
+                } else {
+                    // Square or other ratios
+                    if (width > height) {
+                        height = width / ratio
+                    } else {
+                        width = height * ratio
+                    }
+                }
+                
+                // Update crop area
+                this.cropData.width = width
+                this.cropData.height = height
+                
+                // Update overlay
+                const overlay = document.querySelector('.canvas-overlay')
+                if (overlay) {
+                    overlay.style.width = width + 'px'
+                    overlay.style.height = height + 'px'
+                }
+                
+                // Update inputs
+                document.getElementById('cropWidth').value = Math.round(width)
+                document.getElementById('cropHeight').value = Math.round(height)
+                
+                this.updateCropData(this.cropData.x, this.cropData.y, width, height)
+            }
+            
+            updateHeightFromWidth() {
+                const width = parseInt(document.getElementById('cropWidth').value)
+                if (!width || !this.originalImage) return
+                
+                const ratios = {
+                    '1:1': 1,
+                    '4:3': 4/3,
+                    '16:9': 16/9,
+                    '9:16': 9/16,
+                    '3:2': 3/2,
+                    '2:3': 2/3
+                }
+                
+                const ratio = ratios[this.currentAspectRatio]
+                if (ratio) {
+                    const height = Math.round(width / ratio)
+                    document.getElementById('cropHeight').value = height
+                }
+            }
+            
+            updateWidthFromHeight() {
+                const height = parseInt(document.getElementById('cropHeight').value)
+                if (!height || !this.originalImage) return
+                
+                const ratios = {
+                    '1:1': 1,
+                    '4:3': 4/3,
+                    '16:9': 16/9,
+                    '9:16': 9/16,
+                    '3:2': 3/2,
+                    '2:3': 2/3
+                }
+                
+                const ratio = ratios[this.currentAspectRatio]
+                if (ratio) {
+                    const width = Math.round(height * ratio)
+                    document.getElementById('cropWidth').value = width
+                }
+            }
+            
+            updateImageInfo(originalWidth, originalHeight) {
+                document.getElementById('originalSize').textContent = `${originalWidth} × ${originalHeight}`
+                document.getElementById('imageInfo').style.display = 'block'
+            }
+            
+            updateCropPreview() {
+                // This would update a live preview of the crop
+                // For now, we'll update on apply
+            }
+            
+            resetCrop() {
+                if (!this.originalImage) return
+                
+                // Reset to full image
+                const canvas = document.getElementById('cropCanvas')
+                this.cropData = {
+                    x: 0,
+                    y: 0,
+                    width: canvas.width,
+                    height: canvas.height
+                }
+                
+                // Reset overlay
+                const overlay = document.querySelector('.canvas-overlay')
+                if (overlay) {
+                    overlay.style.left = '0'
+                    overlay.style.top = '0'
+                    overlay.style.width = canvas.width + 'px'
+                    overlay.style.height = canvas.height + 'px'
+                }
+                
+                // Reset inputs
+                document.getElementById('cropWidth').value = ''
+                document.getElementById('cropHeight').value = ''
+                
+                this.updateCropData(0, 0, canvas.width, canvas.height)
+                toastManager.success('Crop reset to full image')
+            }
+            
+            applyCrop() {
+                if (!this.originalImage || !this.cropData) {
+                    toastManager.error('Please select an image first')
+                    return
+                }
+                
+                const canvas = document.getElementById('cropCanvas')
+                const scaleX = this.originalImage.width / canvas.width
+                const scaleY = this.originalImage.height / canvas.height
+                
+                const cropCanvas = document.createElement('canvas')
+                const ctx = cropCanvas.getContext('2d')
+                
+                cropCanvas.width = Math.round(this.cropData.width * scaleX)
+                cropCanvas.height = Math.round(this.cropData.height * scaleY)
+                
+                ctx.drawImage(
+                    this.originalImage,
+                    Math.round(this.cropData.x * scaleX),
+                    Math.round(this.cropData.y * scaleY),
+                    Math.round(this.cropData.width * scaleX),
+                    Math.round(this.cropData.height * scaleY),
+                    0, 0,
+                    cropCanvas.width,
+                    cropCanvas.height
+                )
+                
+                this.croppedImage = cropCanvas
+                
+                // Update preview
+                const preview = document.getElementById('cropPreview')
+                const oldCanvas = document.getElementById('cropCanvas')
+                oldCanvas.replaceWith(cropCanvas)
+                cropCanvas.id = 'cropCanvas'
+                
+                // Remove overlay
+                const overlay = document.querySelector('.canvas-overlay')
+                if (overlay) {
+                    overlay.remove()
+                }
+                
+                // Update UI
+                document.getElementById('applyCrop').disabled = true
+                document.getElementById('downloadCrop').disabled = false
+                
+                // Update cropped size
+                document.getElementById('croppedSize').textContent = `${cropCanvas.width} × ${cropCanvas.height}`
+                
+                toastManager.success('Crop applied successfully')
+            }
+            
+            downloadCroppedImage() {
+                if (!this.croppedImage) {
+                    toastManager.error('No cropped image to download')
+                    return
+                }
+                
+                const filename = `cropped_image_${Date.now()}.png`
+                DownloadUtils.downloadCanvas(this.croppedImage, filename)
+                toastManager.success('Image downloaded successfully')
+            }
+            
+            updateUI() {
+                const hasImage = this.originalImage !== null
+                const hasCrop = this.croppedImage !== null
+                
+                document.getElementById('resetCrop').disabled = !hasImage
+                document.getElementById('applyCrop').disabled = !hasImage || hasCrop
+                document.getElementById('downloadCrop').disabled = !hasCrop
+            }
+        }
+        
+        // Initialize crop tool when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize i18n
+            I18n.init()
+            
+            // Initialize theme
+            themeManager.init()
+            
+            // Initialize crop tool
+            const cropTool = new CropTool()
+        })
+    </script>
+</body>
+</html>

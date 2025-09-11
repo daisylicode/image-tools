@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Image Online - Free Image Tools</title>
+    <meta name="description" content="Free online image cropping tool. Crop images to desired dimensions with aspect ratio options. No upload required.">
+    <meta name="keywords" content="crop image, image cropper, online crop tool, free image cropping">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Crop Image Online - Free Image Tools">
+    <meta property="og:description" content="Free online image cropping tool. No upload required.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://freeimagetools.online/tools/crop">
+    <meta property="og:image" content="/assets/og-image.png">
+    
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Image Cropper",
+        "description": "Free online image cropping tool",
+        "url": "https://freeimagetools.online/tools/crop",
+        "applicationCategory": "ImageEditorApplication",
+        "operatingSystem": "Web Browser"
+    }
+    </script>
+    
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="canonical" href="https://freeimagetools.online/tools/crop">
+    
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/theme.css">
+    <link rel="stylesheet" href="/styles/components.css">
+    <link rel="stylesheet" href="/tools/crop/crop.css">
+</head>
+<body>
+    <header id="header"></header>
+    
+    <main class="tool-page">
+        <div class="container">
+            <div class="tool-header">
+                <h1>Crop Image</h1>
+                <p>Crop your image to desired dimensions with ease</p>
+            </div>
+            
+            <!-- Ad Placeholder -->
+            <div class="ad-placeholder top-ad">
+                <span>Advertisement</span>
+            </div>
+            
+            <div class="tool-content">
+                <div class="tool-controls">
+                    <image-uploader id="imageUploader"></image-uploader>
+                    
+                    <div class="controls-panel" id="controlsPanel" style="display: none;">
+                        <div class="form-group">
+                            <label for="aspectRatio">Aspect Ratio</label>
+                            <select id="aspectRatio">
+                                <option value="free">Freeform</option>
+                                <option value="1:1">Square (1:1)</option>
+                                <option value="16:9">Landscape (16:9)</option>
+                                <option value="9:16">Portrait (9:16)</option>
+                                <option value="4:3">Standard (4:3)</option>
+                                <option value="3:2">Photo (3:2)</option>
+                                <option value="original">Original</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="cropWidth">Width (px)</label>
+                            <input type="number" id="cropWidth" min="1" placeholder="Width">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="cropHeight">Height (px)</label>
+                            <input type="number" id="cropHeight" min="1" placeholder="Height">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="maintainAspectRatio" checked>
+                                Maintain Aspect Ratio
+                            </label>
+                        </div>
+                        
+                        <div class="button-group">
+                            <button class="btn btn-primary" id="cropBtn" disabled>
+                                <span class="btn-text">Crop Image</span>
+                                <span class="loading" style="display: none;"></span>
+                            </button>
+                            <button class="btn btn-secondary" id="resetBtn">Reset</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tool-preview">
+                    <div class="preview-container" id="previewContainer" style="display: none;">
+                        <h3>Preview</h3>
+                        <div class="crop-area" id="cropArea">
+                            <canvas id="cropCanvas"></canvas>
+                            <div class="crop-overlay" id="cropOverlay">
+                                <div class="crop-handle top-left"></div>
+                                <div class="crop-handle top-right"></div>
+                                <div class="crop-handle bottom-left"></div>
+                                <div class="crop-handle bottom-right"></div>
+                                <div class="crop-handle top"></div>
+                                <div class="crop-handle right"></div>
+                                <div class="crop-handle bottom"></div>
+                                <div class="crop-handle left"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="crop-info" id="cropInfo">
+                            <p>Selection: <span id="selectionInfo">0 x 0</span></p>
+                            <p>Original: <span id="originalInfo">0 x 0</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="result-container" id="resultContainer" style="display: none;">
+                        <h3>Cropped Image</h3>
+                        <img id="resultImage" alt="Cropped image">
+                        <div class="download-section">
+                            <button class="btn btn-primary" id="downloadBtn">
+                                📥 Download
+                            </button>
+                            <button class="btn btn-secondary" id="newImageBtn">
+                                🖼️ New Image
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ad Placeholder -->
+            <div class="ad-placeholder middle-ad">
+                <span>Advertisement</span>
+            </div>
+            
+            <section class="tool-info">
+                <h2>How to Crop Images</h2>
+                <div class="info-steps">
+                    <div class="step">
+                        <h3>1. Upload Image</h3>
+                        <p>Drag and drop your image or click to browse. Supports JPG, PNG, WebP, GIF, and BMP.</p>
+                    </div>
+                    <div class="step">
+                        <h3>2. Select Area</h3>
+                        <p>Click and drag on the image to select the area you want to crop. Use handles to adjust the selection.</p>
+                    </div>
+                    <div class="step">
+                        <h3>3. Adjust Settings</h3>
+                        <p>Choose aspect ratio or set custom dimensions. Maintain aspect ratio to avoid distortion.</p>
+                    </div>
+                    <div class="step">
+                        <h3>4. Crop & Download</h3>
+                        <p>Click "Crop Image" to process, then download your cropped image.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="faq">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <h3>What image formats are supported?</h3>
+                        <p>We support all common image formats including JPEG, PNG, WebP, GIF, and BMP.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Is there a file size limit?</h3>
+                        <p>Yes, the maximum file size is 50MB per image.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Can I crop multiple images at once?</h3>
+                        <p>Currently, you can only crop one image at a time. Upload each image separately.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Is my image secure?</h3>
+                        <p>Yes! All image processing happens in your browser. Your images are never uploaded to any server.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Ad Placeholder -->
+            <div class="ad-placeholder bottom-ad">
+                <span>Advertisement</span>
+            </div>
+        </div>
+    </main>
+    
+    <footer id="footer"></footer>
+    
+    <script type="module" src="/scripts/components/header.js"></script>
+    <script type="module" src="/scripts/components/footer.js"></script>
+    <script type="module" src="/scripts/components/image-uploader.js"></script>
+    <script type="module" src="/scripts/components/theme-toggle.js"></script>
+    <script type="module" src="/scripts/analytics.js"></script>
+    <script type="module" src="/tools/crop/crop.js"></script>
+</body>
+</html>

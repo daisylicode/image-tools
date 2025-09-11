@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge Images Online - Free Image Combination Tool</title>
+    <meta name="description" content="Free online image merging tool. Combine multiple images into one with customizable layouts. No registration required.">
+    <meta name="keywords" content="merge images, combine images, image merger, online merge tool, photo collage">
+    <meta name="author" content="Free Image Tools Online">
+    <link rel="canonical" href="https://freeimagetools.online/tools/merge/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Merge Images Online - Free Image Combination Tool">
+    <meta property="og:description" content="Free online image merging tool. Combine multiple images into one with customizable layouts.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://freeimagetools.online/tools/merge/">
+    <meta property="og:image" content="https://freeimagetools.online/assets/og-merge.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Merge Images Online - Free Image Combination Tool">
+    <meta name="twitter:description" content="Free online image merging tool. Combine multiple images into one with customizable layouts.">
+    <meta name="twitter:image" content="https://freeimagetools.online/assets/og-merge.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/theme.css">
+    <link rel="stylesheet" href="/styles/header.css">
+    <link rel="stylesheet" href="/styles/footer.css">
+    <link rel="stylesheet" href="/styles/components.css">
+    <link rel="stylesheet" href="/styles/tools.css">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Image Merge Tool",
+        "description": "Free online image merging tool with customizable layouts",
+        "url": "https://freeimagetools.online/tools/merge/",
+        "applicationCategory": "ImageEditorApplication",
+        "operatingSystem": "Web Browser",
+        "author": {
+            "@type": "Organization",
+            "name": "Free Image Tools Online"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+</head>
+<body>
+    <!-- Skip to content -->
+    <a href="#main-content" class="skip-to-content">Skip to content</a>
+    
+    <!-- Header -->
+    <!-- Simple Header Component -->
+<header class="header">
+  <div class="header-container">
+    <a href="/" class="logo">
+      <img src="/assets/logo.svg" alt="Free Image Tools" class="logo-img">
+      <span class="logo-text">Free Image Tools</span>
+    </a>
+    
+    <nav class="nav">
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a href="/" class="nav-link" data-page="index">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="/tools/crop/" class="nav-link" data-page="crop">Crop</a>
+        </li>
+        <li class="nav-item">
+          <a href="/tools/merge/" class="nav-link" data-page="merge">Merge</a>
+        </li>
+        <li class="nav-item">
+          <a href="/tools/remove-object/" class="nav-link" data-page="remove-object">Remove</a>
+        </li>
+        <li class="nav-item">
+          <a href="/tools/black-image/" class="nav-link" data-page="black-image">Black</a>
+        </li>
+        <li class="nav-item">
+          <a href="/tools/compress/" class="nav-link" data-page="compress">Compress</a>
+        </li>
+        <li class="nav-item">
+          <a href="/tools/resize/" class="nav-link" data-page="resize">Resize</a>
+        </li>
+      </ul>
+    </nav>
+    
+    <div class="header-actions">
+      <button class="lang-toggle" id="langToggle" title="Change Language">
+        🌐
+      </button>
+      <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <span class="hamburger"></span>
+        <span class="hamburger"></span>
+        <span class="hamburger"></span>
+      </button>
+    </div>
+  </div>
+</header>
+    
+    <!-- Main Content -->
+    <main id="main-content">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1 class="tool-title">Merge Images</h1>
+                <p class="tool-description">Combine multiple images into one with customizable layouts</p>
+            </div>
+            
+            <div class="tool-layout">
+                <!-- Controls Panel -->
+                <div class="tool-panel">
+                    <h2 class="tool-panel-title">Merge Settings</h2>
+                    
+                    <!-- File Upload -->
+                    <div class="form-group">
+                        <file-drop-zone id="fileDrop" text="Add images to merge" multiple></file-drop-zone>
+                    </div>
+                    
+                    <!-- Images List -->
+                    <div class="form-group">
+                        <label class="form-label">Images to Merge</label>
+                        <div class="merge-images-list" id="imagesList">
+                            <div class="image-preview-empty">
+                                <p>No images added yet</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Direction -->
+                    <div class="form-group">
+                        <label class="form-label" for="mergeDirection">Direction</label>
+                        <select id="mergeDirection" class="select-control">
+                            <option value="horizontal">Horizontal</option>
+                            <option value="vertical">Vertical</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Spacing -->
+                    <div class="range-group">
+                        <div class="range-label">
+                            <span class="range-title">Spacing</span>
+                            <span class="range-value" id="spacingValue">10px</span>
+                        </div>
+                        <input type="range" id="spacing" class="range-slider" min="0" max="50" value="10">
+                    </div>
+                    
+                    <!-- Background Color -->
+                    <div class="form-group">
+                        <label class="form-label" for="backgroundColor">Background Color</label>
+                        <input type="color" id="backgroundColor" class="form-control" value="#ffffff">
+                    </div>
+                    
+                    <!-- Actions -->
+                    <div class="tool-actions">
+                        <button id="clearImages" class="btn btn-secondary" disabled>Clear All</button>
+                        <button id="mergeImages" class="btn btn-primary" disabled>Merge Images</button>
+                        <button id="downloadMerged" class="btn btn-success" disabled>Download</button>
+                    </div>
+                </div>
+                
+                <!-- Preview Panel -->
+                <div class="tool-panel">
+                    <h2 class="tool-panel-title">Preview</h2>
+                    <div class="image-preview" id="mergePreview">
+                        <div class="image-preview-empty">
+                            <p>Add images to see merge preview</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <!-- Simple Footer Component -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>About Free Image Tools</h3>
+        <p>Professional online image processing tools that work entirely in your browser. No registration required, complete privacy guaranteed.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link" title="Twitter">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
+            </svg>
+          </a>
+          <a href="#" class="social-link" title="GitHub">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Tools</h3>
+        <ul class="footer-links tool-links">
+          <li><a href="/tools/crop/">Crop Image</a></li>
+          <li><a href="/tools/merge/">Merge Images</a></li>
+          <li><a href="/tools/remove-object/">Remove Object</a></li>
+          <li><a href="/tools/black-image/">Black Image</a></li>
+          <li><a href="/tools/compress/">Compress Image</a></li>
+          <li><a href="/tools/resize/">Resize Image</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Support</h3>
+        <ul class="footer-links">
+          <li><a href="/privacy/">Privacy Policy</a></li>
+          <li><a href="/terms/">Terms of Service</a></li>
+          <li><a href="/help/">Help Center</a></li>
+          <li><a href="/contact/">Contact Us</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Contact</h3>
+        <div class="contact-info">
+          <div class="contact-item">
+            <strong>Email:</strong> support@freeimagetools.online
+          </div>
+          <div class="contact-item">
+            <strong>Response Time:</strong> Within 24 hours
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="footer-copyright">
+        © 2024 Free Image Tools Online. All rights reserved.
+      </div>
+      <div class="footer-social">
+        <a href="#" class="social-link" title="Privacy">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 1.5a6.5 6.5 0 0 0-6.5 6.5c0 2.88 1.96 5.3 4.62 6.02.33.06.45-.14.45-.32v-1.12c-1.88.41-2.28-.9-2.28-.9-.31-.78-.75-.99-.75-.99-.61-.42.05-.41.05-.41.68.05 1.03.7 1.03.7.6 1.07 1.58.76 1.96.58.06-.46.24-.76.43-.93-1.48-.17-3.03-.74-3.03-3.28 0-.72.26-1.32.68-1.78-.07-.16-.3-.82.06-1.7 0 0 .56-.18 1.82.68.53-.15 1.09-.22 1.65-.22.56 0 1.12.07 1.65.22 1.26-.86 1.82-.68 1.82-.68.36.88.14 1.54.07 1.7.42.46.68 1.06.68 1.78 0 2.55-1.55 3.11-3.03 3.28.24.21.46.61.46 1.24v1.84c0 .18.12.38.45.32A6.516 6.516 0 0 0 14.5 8c0-3.59-2.91-6.5-6.5-6.5z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+    
+    <!-- Scripts -->
+    <script type="module" src="/scripts/ui/header.js"></script>
+    <script type="module" src="/scripts/ui/footer.js"></script>
+    <script type="module" src="/scripts/core/i18n.js"></script>
+    <script type="module" src="/scripts/ui/theme.js"></script>
+    <script type="module" src="/scripts/ui/toasts.js"></script>
+    <script type="module" src="/scripts/ui/file-drop.js"></script>
+    <script type="module" src="/scripts/core/image-utils.js"></script>
+    <script type="module" src="/scripts/core/download.js"></script>
+    
+    <!-- Merge Tool Script -->
+    <script type="module">
+        import { I18n } from '/scripts/core/i18n.js'
+        import themeManager from '/scripts/ui/theme.js'
+        import toastManager from '/scripts/ui/toasts.js'
+        import { ImageUtils } from '/scripts/core/image-utils.js'
+        import { DownloadUtils } from '/scripts/core/download.js'
+        
+        class MergeTool {
+            constructor() {
+                this.images = []
+                this.mergedImage = null
+                
+                this.init()
+            }
+            
+            init() {
+                this.setupEventListeners()
+                this.updateUI()
+            }
+            
+            setupEventListeners() {
+                // File drop zone
+                const fileDrop = document.getElementById('fileDrop')
+                fileDrop.setOnFilesDropped(this.handleFilesDropped.bind(this))
+                
+                // Spacing slider
+                const spacingSlider = document.getElementById('spacing')
+                spacingSlider.addEventListener('input', (e) => {
+                    document.getElementById('spacingValue').textContent = e.target.value + 'px'
+                    this.updatePreview()
+                })
+                
+                // Direction change
+                document.getElementById('mergeDirection').addEventListener('change', () => {
+                    this.updatePreview()
+                })
+                
+                // Background color change
+                document.getElementById('backgroundColor').addEventListener('change', () => {
+                    this.updatePreview()
+                })
+                
+                // Action buttons
+                document.getElementById('clearImages').addEventListener('click', () => {
+                    this.clearImages()
+                })
+                
+                document.getElementById('mergeImages').addEventListener('click', () => {
+                    this.mergeImages()
+                })
+                
+                document.getElementById('downloadMerged').addEventListener('click', () => {
+                    this.downloadMergedImage()
+                })
+            }
+            
+            handleFilesDropped(files) {
+                files.forEach(file => {
+                    if (file.type.startsWith('image/')) {
+                        this.addImage(file)
+                    }
+                })
+                
+                if (files.length > 0) {
+                    toastManager.success(`${files.length} image(s) added`)
+                }
+            }
+            
+            addImage(file) {
+                const reader = new FileReader()
+                reader.onload = (e) => {
+                    const img = new Image()
+                    img.onload = () => {
+                        this.images.push({
+                            file: file,
+                            image: img,
+                            src: e.target.result,
+                            id: Date.now() + Math.random()
+                        })
+                        this.updateImagesList()
+                        this.updatePreview()
+                        this.updateUI()
+                    }
+                    img.src = e.target.result
+                }
+                reader.readAsDataURL(file)
+            }
+            
+            updateImagesList() {
+                const list = document.getElementById('imagesList')
+                
+                if (this.images.length === 0) {
+                    list.innerHTML = '<div class="image-preview-empty"><p>No images added yet</p></div>'
+                    return
+                }
+                
+                list.innerHTML = this.images.map((imgData, index) => `
+                    <div class="merge-image-item">
+                        <img src="${imgData.src}" alt="Image ${index + 1}" class="merge-image-preview">
+                        <div class="merge-image-info">
+                            <div class="merge-image-name">${imgData.file.name}</div>
+                            <div class="merge-image-size">${imgData.image.width} × ${imgData.image.height}</div>
+                        </div>
+                        <div class="merge-image-actions">
+                            <button class="btn btn-icon btn-error" onclick="mergeTool.removeImage(${index})" title="Remove">
+                                ×
+                            </button>
+                        </div>
+                    </div>
+                `).join('')
+            }
+            
+            removeImage(index) {
+                this.images.splice(index, 1)
+                this.updateImagesList()
+                this.updatePreview()
+                this.updateUI()
+                toastManager.success('Image removed')
+            }
+            
+            clearImages() {
+                this.images = []
+                this.mergedImage = null
+                this.updateImagesList()
+                this.updatePreview()
+                this.updateUI()
+                toastManager.success('All images cleared')
+            }
+            
+            updatePreview() {
+                if (this.images.length === 0) {
+                    document.getElementById('mergePreview').innerHTML = '<div class="image-preview-empty"><p>Add images to see merge preview</p></div>'
+                    return
+                }
+                
+                const direction = document.getElementById('mergeDirection').value
+                const spacing = parseInt(document.getElementById('spacing').value)
+                const backgroundColor = document.getElementById('backgroundColor').value
+                
+                const canvas = document.createElement('canvas')
+                const ctx = canvas.getContext('2d')
+                
+                // Calculate dimensions
+                let totalWidth = 0
+                let totalHeight = 0
+                let maxHeight = 0
+                let maxWidth = 0
+                
+                this.images.forEach(imgData => {
+                    if (direction === 'horizontal') {
+                        totalWidth += imgData.image.width
+                        maxHeight = Math.max(maxHeight, imgData.image.height)
+                    } else {
+                        totalHeight += imgData.image.height
+                        maxWidth = Math.max(maxWidth, imgData.image.width)
+                    }
+                })
+                
+                // Add spacing
+                if (direction === 'horizontal') {
+                    totalWidth += spacing * (this.images.length - 1)
+                    totalHeight = maxHeight
+                } else {
+                    totalHeight += spacing * (this.images.length - 1)
+                    totalWidth = maxWidth
+                }
+                
+                // Set canvas size
+                canvas.width = totalWidth
+                canvas.height = totalHeight
+                
+                // Fill background
+                ctx.fillStyle = backgroundColor
+                ctx.fillRect(0, 0, totalWidth, totalHeight)
+                
+                // Draw images
+                let currentX = 0
+                let currentY = 0
+                
+                this.images.forEach(imgData => {
+                    const img = imgData.image
+                    
+                    if (direction === 'horizontal') {
+                        ctx.drawImage(img, currentX, (totalHeight - img.height) / 2)
+                        currentX += img.width + spacing
+                    } else {
+                        ctx.drawImage(img, (totalWidth - img.width) / 2, currentY)
+                        currentY += img.height + spacing
+                    }
+                })
+                
+                // Update preview
+                const preview = document.getElementById('mergePreview')
+                preview.innerHTML = ''
+                
+                const displayCanvas = document.createElement('canvas')
+                const displayCtx = displayCanvas.getContext('2d')
+                
+                // Scale for display
+                const maxDisplaySize = 400
+                const scale = Math.min(maxDisplaySize / totalWidth, maxDisplaySize / totalHeight, 1)
+                
+                displayCanvas.width = totalWidth * scale
+                displayCanvas.height = totalHeight * scale
+                
+                displayCtx.drawImage(canvas, 0, 0, displayCanvas.width, displayCanvas.height)
+                
+                preview.appendChild(displayCanvas)
+                
+                // Store for download
+                this.previewCanvas = canvas
+            }
+            
+            mergeImages() {
+                if (this.images.length === 0) {
+                    toastManager.error('Please add at least one image')
+                    return
+                }
+                
+                this.mergedImage = this.previewCanvas
+                this.updateUI()
+                toastManager.success('Images merged successfully')
+            }
+            
+            downloadMergedImage() {
+                if (!this.mergedImage) {
+                    toastManager.error('No merged image to download')
+                    return
+                }
+                
+                const filename = `merged_image_${Date.now()}.png`
+                DownloadUtils.downloadCanvas(this.mergedImage, filename)
+                toastManager.success('Merged image downloaded successfully')
+            }
+            
+            updateUI() {
+                const hasImages = this.images.length > 0
+                const hasMerged = this.mergedImage !== null
+                
+                document.getElementById('clearImages').disabled = !hasImages
+                document.getElementById('mergeImages').disabled = !hasImages
+                document.getElementById('downloadMerged').disabled = !hasMerged
+            }
+        }
+        
+        // Initialize merge tool when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize i18n
+            I18n.init()
+            
+            // Initialize theme
+            themeManager.init()
+            
+            // Initialize merge tool
+            window.mergeTool = new MergeTool()
+        })
+    </script>
+</body>
+</html>

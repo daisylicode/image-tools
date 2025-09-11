@@ -1,0 +1,13 @@
+<!-- This is a placeholder for apple-touch-icon.png -->
+<!-- In a real implementation, this would be a 180x180 PNG image -->
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="180" height="180" rx="36" fill="url(#gradient)"/>
+  <path d="M90 45L45 90L90 135L135 90L90 45Z" fill="white" opacity="0.9"/>
+  <circle cx="90" cy="90" r="17" fill="white"/>
+  <defs>
+    <linearGradient id="gradient" x1="0" y1="0" x2="180" y2="180">
+      <stop offset="0%" stop-color="#667eea"/>
+      <stop offset="100%" stop-color="#764ba2"/>
+    </linearGradient>
+  </defs>
+</svg>

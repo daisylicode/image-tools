@@ -1,0 +1,36 @@
+{
+  "name": "free-image-tools",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .js,.html --fix",
+    "format": "prettier --write .",
+    "generate-sitemap": "node scripts/generate-sitemap.js"
+  },
+  "devDependencies": {
+    "vite": "^5.4.10",
+    "eslint": "^9.13.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.3",
+    "sharp": "^0.33.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "image-tools",
+    "image-processing",
+    "crop",
+    "resize",
+    "compress",
+    "merge",
+    "remove-object",
+    "canvas",
+    "web-workers",
+    "privacy-first"
+  ]
+}
