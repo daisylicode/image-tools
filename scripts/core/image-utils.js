@@ -66,7 +66,7 @@ export class ImageUtils {
     return EXIFReader.readEXIF(file)
   }
 
-  static formatFileSize(bytes) {
+  static async formatFileSize(bytes) {
     const ImageLoader = await import('./loader.js').then(m => m.ImageLoader)
     return ImageLoader.formatFileSize(bytes)
   }

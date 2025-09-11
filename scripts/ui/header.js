@@ -134,7 +134,7 @@ class Header extends HTMLElement {
     window.dispatchEvent(new CustomEvent('navigate', { detail: { path } }))
   }
 
-  showLanguageSelector() {
+  async showLanguageSelector() {
     const I18n = window.I18n || (await import('@core/i18n.js')).I18n
     const languages = I18n.getAvailableLanguages()
     const currentLang = I18n.getCurrentLanguage()

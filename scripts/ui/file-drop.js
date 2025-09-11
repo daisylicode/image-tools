@@ -193,7 +193,7 @@ export class FileDropZone extends HTMLElement {
     }
   }
 
-  showError(message) {
+  async showError(message) {
     const toastManager = window.toastManager || (await import('@ui/toasts.js')).default
     toastManager.error(message, 3000)
   }
