@@ -482,6 +482,10 @@
             }
             
             async removeObject() {
+                console.log('removeObject called')
+                console.log('originalImage:', !!this.originalImage)
+                console.log('selection length:', this.selection.length)
+                
                 if (!this.originalImage || this.selection.length === 0) {
                     toastManager.error('Please select an area to remove')
                     return
@@ -493,132 +497,164 @@
                     const canvas = document.getElementById('removeCanvas')
                     const maskCanvas = document.getElementById('maskCanvas')
                     
+                    if (!canvas || !maskCanvas) {
+                        throw new Error('Canvas elements not found')
+                    }
+                    
+                    console.log('Canvas elements found')
+                    
                     // Get image data
                     const imageData = canvas.toDataURL()
                     const maskData = maskCanvas.toDataURL()
                     
-                    if (this.workerPool) {
-                        // Use worker pool for processing
-                        const result = await this.workerPool.execute({
-                            type: 'inpaint',
-                            data: {
-                                imageData,
-                                maskData,
-                                method: document.getElementById('inpaintMethod').value
-                            }
-                        })
-                        
-                        if (result.success) {
-                            this.displayProcessedImage(result.data.inpaintedData)
-                            toastManager.success('Object removed successfully')
-                        } else {
-                            throw new Error(result.error)
-                        }
-                    } else {
-                        // Fallback to client-side processing
-                        await this.clientSideInpaint(imageData, maskData)
-                    }
+                    console.log('Image data length:', imageData.length)
+                    console.log('Mask data length:', maskData.length)
+                    
+                    // Always use client-side processing for now
+                    await this.clientSideInpaint(imageData, maskData)
+                    
                 } catch (error) {
                     console.error('Inpainting failed:', error)
-                    toastManager.error('Failed to remove object. Please try again.')
+                    toastManager.error('Failed to remove object: ' + error.message)
                 }
             }
             
             async clientSideInpaint(imageData, maskData) {
-                // Simple client-side inpainting fallback
-                const img = new Image()
-                img.onload = () => {
-                    const canvas = document.createElement('canvas')
-                    const ctx = canvas.getContext('2d')
-                    
-                    canvas.width = img.width
-                    canvas.height = img.height
-                    
-                    // Draw original image
-                    ctx.drawImage(img, 0, 0)
-                    
-                    // Apply simple blur effect to selected areas
-                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-                    const data = imageData.data
-                    
-                    // Simple blur effect (in production, use more sophisticated algorithms)
-                    for (let i = 0; i < data.length; i += 4) {
-                        const x = (i / 4) % canvas.width
-                        const y = Math.floor((i / 4) / canvas.width)
-                        
-                        // Check if this pixel is in the selection area
-                        const inSelection = this.selection.some(point => {
-                            const distance = Math.sqrt(
-                                Math.pow(x - point.x, 2) + Math.pow(y - point.y, 2)
-                            )
-                            return distance <= point.size / 2
-                        })
-                        
-                        if (inSelection) {
-                            // Apply simple blur by averaging with neighbors
-                            let r = 0, g = 0, b = 0, a = 0
-                            let count = 0
+                console.log('clientSideInpaint started')
+                
+                return new Promise((resolve, reject) => {
+                    const img = new Image()
+                    img.onload = () => {
+                        try {
+                            console.log('Image loaded for processing, dimensions:', img.width, 'x', img.height)
                             
-                            for (let dy = -2; dy <= 2; dy++) {
-                                for (let dx = -2; dx <= 2; dx++) {
-                                    const nx = x + dx
-                                    const ny = y + dy
+                            const canvas = document.createElement('canvas')
+                            const ctx = canvas.getContext('2d')
+                            
+                            canvas.width = img.width
+                            canvas.height = img.height
+                            
+                            // Draw original image
+                            ctx.drawImage(img, 0, 0)
+                            console.log('Original image drawn')
+                            
+                            // Apply simple blur effect to selected areas
+                            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+                            const data = imageData.data
+                            
+                            console.log('Selection points:', this.selection.length)
+                            
+                            // Simple blur effect
+                            for (let i = 0; i < data.length; i += 4) {
+                                const x = (i / 4) % canvas.width
+                                const y = Math.floor((i / 4) / canvas.width)
+                                
+                                // Check if this pixel is in the selection area
+                                const inSelection = this.selection.some(point => {
+                                    const distance = Math.sqrt(
+                                        Math.pow(x - point.x, 2) + Math.pow(y - point.y, 2)
+                                    )
+                                    return distance <= point.size / 2
+                                })
+                                
+                                if (inSelection) {
+                                    // Apply simple blur by averaging with neighbors
+                                    let r = 0, g = 0, b = 0, a = 0
+                                    let count = 0
                                     
-                                    if (nx >= 0 && nx < canvas.width && ny >= 0 && ny < canvas.height) {
-                                        const nIndex = (ny * canvas.width + nx) * 4
-                                        r += data[nIndex]
-                                        g += data[nIndex + 1]
-                                        b += data[nIndex + 2]
-                                        a += data[nIndex + 3]
-                                        count++
+                                    for (let dy = -2; dy <= 2; dy++) {
+                                        for (let dx = -2; dx <= 2; dx++) {
+                                            const nx = x + dx
+                                            const ny = y + dy
+                                            
+                                            if (nx >= 0 && nx < canvas.width && ny >= 0 && ny < canvas.height) {
+                                                const nIndex = (ny * canvas.width + nx) * 4
+                                                r += data[nIndex]
+                                                g += data[nIndex + 1]
+                                                b += data[nIndex + 2]
+                                                a += data[nIndex + 3]
+                                                count++
+                                            }
+                                        }
+                                    }
+                                    
+                                    if (count > 0) {
+                                        data[i] = r / count
+                                        data[i + 1] = g / count
+                                        data[i + 2] = b / count
+                                        data[i + 3] = a / count
                                     }
                                 }
                             }
                             
-                            if (count > 0) {
-                                data[i] = r / count
-                                data[i + 1] = g / count
-                                data[i + 2] = b / count
-                                data[i + 3] = a / count
-                            }
+                            ctx.putImageData(imageData, 0, 0)
+                            console.log('Blur effect applied')
+                            
+                            const resultDataUrl = canvas.toDataURL()
+                            console.log('Result data URL created, length:', resultDataUrl.length)
+                            
+                            // Directly update the canvas without waiting for image loading
+                            this.updateCanvasWithResult(resultDataUrl)
+                            
+                            toastManager.success('Object removed successfully')
+                            resolve()
+                            
+                        } catch (error) {
+                            console.error('Error in clientSideInpaint:', error)
+                            reject(error)
                         }
                     }
-                    
-                    ctx.putImageData(imageData, 0, 0)
-                    
-                    this.displayProcessedImage(canvas.toDataURL())
-                    toastManager.success('Object removed successfully')
-                }
-                img.src = imageData
+                    img.onerror = () => {
+                        console.error('Failed to load image for processing')
+                        reject(new Error('Failed to load image for processing'))
+                    }
+                    img.src = imageData
+                })
             }
             
-            displayProcessedImage(imageSrc) {
-                const img = new Image()
-                img.onload = () => {
-                    const preview = document.getElementById('removePreview')
-                    const oldCanvas = document.getElementById('removeCanvas')
-                    
-                    const newCanvas = document.createElement('canvas')
-                    const ctx = newCanvas.getContext('2d')
-                    
-                    newCanvas.width = oldCanvas.width
-                    newCanvas.height = oldCanvas.height
-                    
-                    ctx.drawImage(img, 0, 0, newCanvas.width, newCanvas.height)
-                    
-                    oldCanvas.replaceWith(newCanvas)
-                    newCanvas.id = 'removeCanvas'
-                    
-                    // Remove mask canvas
-                    const maskCanvas = document.getElementById('maskCanvas')
-                    if (maskCanvas) {
-                        maskCanvas.remove()
-                    }
-                    
-                    this.processedImage = newCanvas
-                    this.updateUI()
+            async displayProcessedImage(imageSrc) {
+                try {
+                    return new Promise((resolve, reject) => {
+                        const img = new Image()
+                        img.onload = () => {
+                            const preview = document.getElementById('removePreview')
+                            const oldCanvas = document.getElementById('removeCanvas')
+                            
+                            if (!oldCanvas) {
+                                reject(new Error('Canvas not found'))
+                                return
+                            }
+                            
+                            const newCanvas = document.createElement('canvas')
+                            const ctx = newCanvas.getContext('2d')
+                            
+                            newCanvas.width = oldCanvas.width
+                            newCanvas.height = oldCanvas.height
+                            
+                            ctx.drawImage(img, 0, 0, newCanvas.width, newCanvas.height)
+                            
+                            oldCanvas.replaceWith(newCanvas)
+                            newCanvas.id = 'removeCanvas'
+                            
+                            // Remove mask canvas
+                            const maskCanvas = document.getElementById('maskCanvas')
+                            if (maskCanvas) {
+                                maskCanvas.remove()
+                            }
+                            
+                            this.processedImage = newCanvas
+                            this.updateUI()
+                            resolve()
+                        }
+                        img.onerror = () => {
+                            reject(new Error('Failed to load processed image'))
+                        }
+                        img.src = imageSrc
+                    })
+                } catch (error) {
+                    console.error('Error displaying processed image:', error)
+                    toastManager.error('Failed to display processed image')
                 }
-                img.src = imageSrc
             }
             
             downloadResult() {
@@ -632,6 +668,45 @@
                 toastManager.success('Image downloaded successfully')
             }
             
+            updateCanvasWithResult(resultDataUrl) {
+                console.log('updateCanvasWithResult called')
+                
+                // Update the existing canvas directly
+                const canvas = document.getElementById('removeCanvas')
+                if (!canvas) {
+                    console.error('Canvas not found for update')
+                    return
+                }
+                
+                const ctx = canvas.getContext('2d')
+                const img = new Image()
+                
+                img.onload = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height)
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+                    
+                    // Set as processed image
+                    this.processedImage = canvas
+                    
+                    // Remove mask canvas
+                    const maskCanvas = document.getElementById('maskCanvas')
+                    if (maskCanvas) {
+                        maskCanvas.remove()
+                    }
+                    
+                    // Update UI
+                    this.updateUI()
+                    
+                    console.log('Canvas updated successfully')
+                }
+                
+                img.onerror = () => {
+                    console.error('Failed to load result image')
+                }
+                
+                img.src = resultDataUrl
+            }
+            
             updateUI() {
                 const hasImage = this.originalImage !== null
                 const hasSelection = this.selection.length > 0
@@ -640,6 +715,8 @@
                 document.getElementById('clearSelection').disabled = !hasSelection
                 document.getElementById('removeObject').disabled = !hasSelection || hasProcessedImage
                 document.getElementById('downloadResult').disabled = !hasProcessedImage
+                
+                console.log('UI updated - hasImage:', hasImage, 'hasSelection:', hasSelection, 'hasProcessedImage:', hasProcessedImage)
             }
         }
         

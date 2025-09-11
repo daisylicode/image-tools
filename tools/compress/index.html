@@ -390,6 +390,10 @@
             }
             
             async compressImage() {
+                console.log('compressImage called')
+                console.log('originalImage:', !!this.originalImage)
+                console.log('originalFile:', !!this.originalFile)
+                
                 if (!this.originalImage || !this.originalFile) {
                     toastManager.error('Please select an image first')
                     return
@@ -403,80 +407,146 @@
                     const maxHeight = parseInt(document.getElementById('maxHeight').value) || null
                     const format = document.getElementById('outputFormat').value
                     
-                    if (this.workerPool) {
-                        // Use worker pool for compression
-                        const result = await this.workerPool.execute({
-                            type: 'compress',
-                            data: {
-                                imageData: this.originalImage.src,
-                                quality,
-                                maxWidth,
-                                maxHeight,
-                                format
-                            }
-                        })
-                        
-                        if (result.success) {
-                            this.displayCompressedImage(result.data.compressedData, result.data)
-                            toastManager.success('Image compressed successfully')
-                        } else {
-                            throw new Error(result.error)
-                        }
-                    } else {
-                        // Fallback to client-side compression
-                        await this.clientSideCompress(quality, maxWidth, maxHeight, format)
-                    }
+                    console.log('Compression settings:', { quality, maxWidth, maxHeight, format })
+                    
+                    // Always use client-side compression for now
+                    await this.clientSideCompress(quality, maxWidth, maxHeight, format)
+                    
                 } catch (error) {
                     console.error('Compression failed:', error)
-                    toastManager.error('Failed to compress image. Please try again.')
+                    toastManager.error('Failed to compress image: ' + error.message)
                 }
             }
             
             async clientSideCompress(quality, maxWidth, maxHeight, format) {
-                const canvas = document.createElement('canvas')
-                const ctx = canvas.getContext('2d')
+                console.log('clientSideCompress started')
+                console.log('Format:', format, 'Quality:', quality)
                 
-                let { width, height } = this.originalImage
+                try {
+                    const canvas = document.createElement('canvas')
+                    const ctx = canvas.getContext('2d')
+                    
+                    let { width, height } = this.originalImage
+                    console.log('Original dimensions:', width, 'x', height)
+                    
+                    // Resize if needed
+                    if (maxWidth && width > maxWidth) {
+                        height = (height * maxWidth) / width
+                        width = maxWidth
+                    }
+                    
+                    if (maxHeight && height > maxHeight) {
+                        width = (width * maxHeight) / height
+                        height = maxHeight
+                    }
+                    
+                    console.log('New dimensions:', width, 'x', height)
+                    
+                    canvas.width = width
+                    canvas.height = height
+                    
+                    // Draw image
+                    ctx.drawImage(this.originalImage, 0, 0, width, height)
+                    console.log('Image drawn to canvas')
+                    
+                    // For PNG, apply quality by reducing color depth or using compression level
+                    let blob
+                    if (format === 'png') {
+                        // For PNG, we'll use a different approach since quality parameter doesn't work
+                        // We can reduce the color depth or apply other optimizations
+                        const imageData = ctx.getImageData(0, 0, width, height)
+                        const optimizedData = this.optimizePNGData(imageData, quality)
+                        ctx.putImageData(optimizedData, 0, 0)
+                        
+                        blob = await new Promise((resolve, reject) => {
+                            canvas.toBlob((blob) => {
+                                if (blob) {
+                                    console.log('PNG blob created, size:', blob.size)
+                                    resolve(blob)
+                                } else {
+                                    reject(new Error('Failed to create PNG blob'))
+                                }
+                            }, 'image/png')
+                        })
+                    } else {
+                        // For JPEG and WebP, quality parameter works directly
+                        blob = await new Promise((resolve, reject) => {
+                            canvas.toBlob((blob) => {
+                                if (blob) {
+                                    console.log('Blob created, size:', blob.size)
+                                    resolve(blob)
+                                } else {
+                                    reject(new Error('Failed to create blob'))
+                                }
+                            }, `image/${format}`, quality)
+                        })
+                    }
+                    
+                    // Convert to data URL
+                    const compressedData = await new Promise((resolve, reject) => {
+                        const reader = new FileReader()
+                        reader.onload = () => {
+                            console.log('Data URL created, length:', reader.result.length)
+                            resolve(reader.result)
+                        }
+                        reader.onerror = () => reject(new Error('Failed to read blob'))
+                        reader.readAsDataURL(blob)
+                    })
+                    
+                    console.log('Calling displayCompressedImage')
+                    
+                    await this.displayCompressedImageAsync(compressedData, {
+                        originalSize: this.originalFile.size,
+                        compressedSize: blob.size,
+                        width,
+                        height,
+                        format,
+                        quality
+                    })
+                    
+                    toastManager.success('Image compressed successfully')
+                    console.log('Compression completed successfully')
+                    
+                } catch (error) {
+                    console.error('Error in clientSideCompress:', error)
+                    throw error
+                }
+            }
+            
+            optimizePNGData(imageData, quality) {
+                console.log('Optimizing PNG data with quality:', quality)
                 
-                // Resize if needed
-                if (maxWidth && width > maxWidth) {
-                    height = (height * maxWidth) / width
-                    width = maxWidth
+                // For PNG, we can apply various optimizations based on quality
+                const data = imageData.data
+                
+                // Simple optimization: reduce color information for lower quality
+                if (quality < 0.8) {
+                    // Reduce color precision for lower quality settings
+                    const factor = Math.floor(quality * 8) + 1  // 1-8 levels
+                    console.log('Applying PNG color reduction with factor:', factor)
+                    
+                    for (let i = 0; i < data.length; i += 4) {
+                        // Reduce RGB precision
+                        data[i] = Math.floor(data[i] / factor) * factor     // Red
+                        data[i + 1] = Math.floor(data[i + 1] / factor) * factor // Green
+                        data[i + 2] = Math.floor(data[i + 2] / factor) * factor // Blue
+                        // Alpha channel remains unchanged
+                    }
                 }
                 
-                if (maxHeight && height > maxHeight) {
-                    width = (width * maxHeight) / height
-                    height = maxHeight
+                if (quality < 0.5) {
+                    // For very low quality, apply additional dithering or quantization
+                    console.log('Applying additional PNG compression')
+                    
+                    // Simple color quantization - reduce to fewer colors
+                    for (let i = 0; i < data.length; i += 4) {
+                        data[i] = Math.round(data[i] / 64) * 64     // Red: 0, 64, 128, 192, 255
+                        data[i + 1] = Math.round(data[i + 1] / 64) * 64 // Green: 0, 64, 128, 192, 255
+                        data[i + 2] = Math.round(data[i + 2] / 64) * 64 // Blue: 0, 64, 128, 192, 255
+                    }
                 }
                 
-                canvas.width = width
-                canvas.height = height
-                
-                // Draw image
-                ctx.drawImage(this.originalImage, 0, 0, width, height)
-                
-                // Convert to blob
-                const blob = await new Promise((resolve) => {
-                    canvas.toBlob(resolve, `image/${format}`, quality)
-                })
-                
-                // Convert to data URL
-                const compressedData = await new Promise((resolve) => {
-                    const reader = new FileReader()
-                    reader.onload = () => resolve(reader.result)
-                    reader.readAsDataURL(blob)
-                })
-                
-                this.displayCompressedImage(compressedData, {
-                    originalSize: this.originalFile.size,
-                    compressedSize: blob.size,
-                    width,
-                    height,
-                    format,
-                    quality
-                })
-                
-                toastManager.success('Image compressed successfully')
+                return imageData
             }
             
             displayCompressedImage(compressedData, stats) {
@@ -508,7 +578,66 @@
                     this.updateCompressionStats(stats)
                     this.updateUI()
                 }
+                img.onerror = () => {
+                    console.error('Failed to load compressed image')
+                }
                 img.src = compressedData
+            }
+            
+            async displayCompressedImageAsync(compressedData, stats) {
+                console.log('displayCompressedImageAsync started')
+                
+                return new Promise((resolve, reject) => {
+                    const preview = document.getElementById('compressedPreview')
+                    if (!preview) {
+                        reject(new Error('Preview element not found'))
+                        return
+                    }
+                    
+                    preview.innerHTML = ''
+                    
+                    const img = new Image()
+                    img.onload = () => {
+                        try {
+                            console.log('Compressed image loaded, dimensions:', img.width, 'x', img.height)
+                            
+                            const displayCanvas = document.createElement('canvas')
+                            const displayCtx = displayCanvas.getContext('2d')
+                            
+                            // Scale for display
+                            const maxDisplaySize = 300
+                            const scale = Math.min(maxDisplaySize / img.width, maxDisplaySize / img.height, 1)
+                            
+                            displayCanvas.width = img.width * scale
+                            displayCanvas.height = img.height * scale
+                            
+                            displayCtx.drawImage(img, 0, 0, displayCanvas.width, displayCanvas.height)
+                            
+                            preview.appendChild(displayCanvas)
+                            
+                            // Store compressed image
+                            this.compressedImage = img
+                            this.compressedData = compressedData
+                            this.compressedStats = stats
+                            
+                            // Update stats
+                            this.updateCompressionStats(stats)
+                            this.updateUI()
+                            
+                            console.log('Compressed image displayed successfully')
+                            resolve()
+                            
+                        } catch (error) {
+                            console.error('Error in image onload:', error)
+                            reject(error)
+                        }
+                    }
+                    img.onerror = () => {
+                        console.error('Failed to load compressed image')
+                        reject(new Error('Failed to load compressed image'))
+                    }
+                    img.src = compressedData
+                })
             }
             
             updateCompressionStats(stats) {
@@ -539,8 +668,19 @@
                 const hasImage = this.originalImage !== null
                 const hasCompressed = this.compressedImage !== null
                 
-                document.getElementById('compressImage').disabled = !hasImage
-                document.getElementById('downloadCompressed').disabled = !hasCompressed
+                const compressBtn = document.getElementById('compressImage')
+                const downloadBtn = document.getElementById('downloadCompressed')
+                
+                if (compressBtn) {
+                    compressBtn.disabled = !hasImage
+                }
+                
+                if (downloadBtn) {
+                    downloadBtn.disabled = !hasCompressed
+                }
+                
+                console.log('UI updated - hasImage:', hasImage, 'hasCompressed:', hasCompressed)
+                console.log('Download button disabled:', !hasCompressed)
             }
         }
         

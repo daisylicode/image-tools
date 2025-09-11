@@ -207,7 +207,7 @@
     <script type="module" src="/scripts/core/image-utils.js"></script>
     <script type="module" src="/scripts/core/download.js"></script>
     
-    <!-- Crop Tool Script -->
+    <!-- Enhanced Crop Tool Script -->
     <script type="module">
         import { I18n } from '/scripts/core/i18n.js'
         import themeManager from '/scripts/ui/theme.js'
@@ -215,13 +215,21 @@
         import { ImageUtils } from '/scripts/core/image-utils.js'
         import { DownloadUtils } from '/scripts/core/download.js'
         
-        class CropTool {
+        class EnhancedCropTool {
             constructor() {
                 this.originalImage = null
+                this.originalFile = null
                 this.croppedImage = null
                 this.currentAspectRatio = 'free'
                 this.maintainRatio = true
-                this.cropData = null
+                this.cropData = {
+                    x: 0, y: 0, width: 0, height: 0,
+                    isDragging: false, isResizing: false, resizeHandle: null,
+                    startX: 0, startY: 0
+                }
+                this.canvas = null
+                this.ctx = null
+                this.overlay = null
                 
                 this.init()
             }
@@ -248,17 +256,11 @@
                 const heightInput = document.getElementById('cropHeight')
                 
                 widthInput.addEventListener('input', () => {
-                    if (this.maintainRatio && this.currentAspectRatio !== 'free') {
-                        this.updateHeightFromWidth()
-                    }
-                    this.updateCropPreview()
+                    this.updateCropFromInputs()
                 })
                 
                 heightInput.addEventListener('input', () => {
-                    if (this.maintainRatio && this.currentAspectRatio !== 'free') {
-                        this.updateWidthFromHeight()
-                    }
-                    this.updateCropPreview()
+                    this.updateCropFromInputs()
                 })
                 
                 // Maintain ratio checkbox
@@ -288,15 +290,16 @@
                 
                 const reader = new FileReader()
                 reader.onload = (e) => {
-                    this.loadImage(e.target.result)
+                    this.loadImage(e.target.result, file)
                 }
                 reader.readAsDataURL(file)
             }
             
-            loadImage(imageSrc) {
+            loadImage(imageSrc, file) {
                 const img = new Image()
                 img.onload = () => {
                     this.originalImage = img
+                    this.originalFile = file
                     this.displayImage(img)
                     this.updateUI()
                     toastManager.success('Image loaded successfully')
@@ -310,13 +313,15 @@
             displayImage(img) {
                 const preview = document.getElementById('cropPreview')
                 preview.innerHTML = `
-                    <div class="canvas-container">
-                        <canvas id="cropCanvas"></canvas>
+                    <div class="canvas-container" style="position: relative; display: inline-block;">
+                        <canvas id="cropCanvas" style="max-width: 100%; height: auto; border: 1px solid #ddd;"></canvas>
+                        <div class="crop-overlay" id="cropOverlay"></div>
                     </div>
                 `
                 
-                const canvas = document.getElementById('cropCanvas')
-                const ctx = canvas.getContext('2d')
+                this.canvas = document.getElementById('cropCanvas')
+                this.ctx = this.canvas.getContext('2d')
+                this.overlay = document.getElementById('cropOverlay')
                 
                 // Set canvas size
                 const maxWidth = preview.clientWidth - 40
@@ -334,92 +339,299 @@
                     height = maxHeight
                 }
                 
-                canvas.width = width
-                canvas.height = height
+                this.canvas.width = width
+                this.canvas.height = height
                 
                 // Draw image
-                ctx.drawImage(img, 0, 0, width, height)
+                this.ctx.drawImage(img, 0, 0, width, height)
                 
                 // Update image info
                 this.updateImageInfo(img.width, img.height)
                 
-                // Setup crop overlay
-                this.setupCropOverlay(canvas, img)
+                // Initialize crop area
+                this.initializeCropArea()
+                
+                // Setup canvas events
+                this.setupCanvasEvents()
             }
             
-            setupCropOverlay(canvas, img) {
-                // Create crop overlay
-                const overlay = document.createElement('div')
-                overlay.className = 'canvas-overlay'
-                overlay.style.position = 'absolute'
-                overlay.style.top = '0'
-                overlay.style.left = '0'
-                overlay.style.width = canvas.width + 'px'
-                overlay.style.height = canvas.height + 'px'
-                overlay.style.border = '2px solid #3b82f6'
-                overlay.style.cursor = 'move'
-                overlay.style.backgroundColor = 'rgba(59, 130, 246, 0.1)'
+            initializeCropArea() {
+                // Start with full canvas size (no gaps)
+                this.cropData = {
+                    x: 0,
+                    y: 0,
+                    width: this.canvas.width,
+                    height: this.canvas.height,
+                    isDragging: false,
+                    isResizing: false,
+                    resizeHandle: null,
+                    startX: 0,
+                    startY: 0
+                }
                 
-                canvas.parentElement.appendChild(overlay)
-                
-                // Setup drag functionality
-                this.setupCropDrag(overlay, canvas, img)
+                // Apply current aspect ratio if set
+                if (this.currentAspectRatio !== 'free' && this.maintainRatio) {
+                    this.setAspectRatio(this.currentAspectRatio)
+                } else {
+                    this.updateCropArea()
+                }
             }
             
-            setupCropDrag(overlay, canvas, img) {
-                let isDragging = false
-                let startX, startY
-                let cropX = 0, cropY = 0
-                let cropWidth = canvas.width
-                let cropHeight = canvas.height
-                
-                overlay.addEventListener('mousedown', (e) => {
-                    isDragging = true
-                    startX = e.clientX - cropX
-                    startY = e.clientY - cropY
-                    overlay.style.cursor = 'grabbing'
-                })
-                
-                document.addEventListener('mousemove', (e) => {
-                    if (!isDragging) return
-                    
-                    cropX = e.clientX - startX
-                    cropY = e.clientY - startY
-                    
-                    // Constrain to canvas bounds
-                    cropX = Math.max(0, Math.min(cropX, canvas.width - cropWidth))
-                    cropY = Math.max(0, Math.min(cropY, canvas.height - cropHeight))
-                    
-                    overlay.style.left = cropX + 'px'
-                    overlay.style.top = cropY + 'px'
-                    
-                    this.updateCropData(cropX, cropY, cropWidth, cropHeight)
-                })
-                
-                document.addEventListener('mouseup', () => {
-                    isDragging = false
-                    overlay.style.cursor = 'move'
-                })
-                
-                // Initialize crop data
-                this.cropData = { x: cropX, y: cropY, width: cropWidth, height: cropHeight }
+            setupCanvasEvents() {
+                this.canvas.addEventListener('mousedown', (e) => this.handleMouseDown(e))
+                this.canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e))
+                this.canvas.addEventListener('mouseup', () => this.handleMouseUp())
+                this.canvas.addEventListener('mouseleave', () => this.handleMouseUp())
             }
             
-            updateCropData(x, y, width, height) {
-                this.cropData = { x, y, width, height }
+            handleMouseDown(e) {
+                const rect = this.canvas.getBoundingClientRect()
+                const x = e.clientX - rect.left
+                const y = e.clientY - rect.top
                 
-                // Update dimension inputs
-                document.getElementById('cropWidth').value = Math.round(width)
-                document.getElementById('cropHeight').value = Math.round(height)
+                // Check if clicking on resize handle
+                const handle = this.getResizeHandle(x, y)
+                if (handle) {
+                    this.cropData.isResizing = true
+                    this.cropData.resizeHandle = handle
+                    this.cropData.startX = x
+                    this.cropData.startY = y
+                    return
+                }
                 
-                // Update cropped size info
-                const scaleX = this.originalImage.width / document.getElementById('cropCanvas').width
-                const scaleY = this.originalImage.height / document.getElementById('cropCanvas').height
+                // Check if clicking inside crop area
+                if (this.isInsideCropArea(x, y)) {
+                    this.cropData.isDragging = true
+                    this.cropData.startX = x - this.cropData.x
+                    this.cropData.startY = y - this.cropData.y
+                    return
+                }
                 
-                const actualWidth = Math.round(width * scaleX)
-                const actualHeight = Math.round(height * scaleY)
+                // Start new selection
+                this.cropData.x = x
+                this.cropData.y = y
+                this.cropData.width = 0
+                this.cropData.height = 0
+                this.cropData.isResizing = true
+                this.cropData.resizeHandle = 'bottom-right'
+            }
+            
+            handleMouseMove(e) {
+                const rect = this.canvas.getBoundingClientRect()
+                const x = e.clientX - rect.left
+                const y = e.clientY - rect.top
+                
+                if (this.cropData.isResizing) {
+                    this.handleResize(x, y)
+                } else if (this.cropData.isDragging) {
+                    this.handleDrag(x, y)
+                } else {
+                    this.updateCursor(x, y)
+                }
+            }
+            
+            handleMouseUp() {
+                this.cropData.isDragging = false
+                this.cropData.isResizing = false
+                this.cropData.resizeHandle = null
+            }
+            
+            handleResize(x, y) {
+                const handle = this.cropData.resizeHandle
+                const startX = this.cropData.startX
+                const startY = this.cropData.startY
+                
+                switch (handle) {
+                    case 'top-left':
+                        this.cropData.width = this.cropData.x + this.cropData.width - x
+                        this.cropData.height = this.cropData.y + this.cropData.height - y
+                        this.cropData.x = x
+                        this.cropData.y = y
+                        break
+                    case 'top-right':
+                        this.cropData.width = x - this.cropData.x
+                        this.cropData.height = this.cropData.y + this.cropData.height - y
+                        this.cropData.y = y
+                        break
+                    case 'bottom-left':
+                        this.cropData.width = this.cropData.x + this.cropData.width - x
+                        this.cropData.height = y - this.cropData.y
+                        this.cropData.x = x
+                        break
+                    case 'bottom-right':
+                        this.cropData.width = x - this.cropData.x
+                        this.cropData.height = y - this.cropData.y
+                        break
+                }
+                
+                this.updateCropArea()
+            }
+            
+            handleDrag(x, y) {
+                this.cropData.x = x - this.cropData.startX
+                this.cropData.y = y - this.cropData.startY
+                this.updateCropArea()
+            }
+            
+            getResizeHandle(x, y) {
+                const handles = ['top-left', 'top-right', 'bottom-left', 'bottom-right']
+                const threshold = 10
+                
+                for (let handle of handles) {
+                    if (this.isNearHandle(x, y, handle, threshold)) {
+                        return handle
+                    }
+                }
+                return null
+            }
+            
+            isNearHandle(x, y, handle, threshold) {
+                const handlePos = this.getHandlePosition(handle)
+                return Math.abs(x - handlePos.x) <= threshold && Math.abs(y - handlePos.y) <= threshold
+            }
+            
+            getHandlePosition(handle) {
+                switch (handle) {
+                    case 'top-left':
+                        return { x: this.cropData.x, y: this.cropData.y }
+                    case 'top-right':
+                        return { x: this.cropData.x + this.cropData.width, y: this.cropData.y }
+                    case 'bottom-left':
+                        return { x: this.cropData.x, y: this.cropData.y + this.cropData.height }
+                    case 'bottom-right':
+                        return { x: this.cropData.x + this.cropData.width, y: this.cropData.y + this.cropData.height }
+                    default:
+                        return { x: 0, y: 0 }
+                }
+            }
+            
+            isInsideCropArea(x, y) {
+                return x >= this.cropData.x && x <= this.cropData.x + this.cropData.width &&
+                       y >= this.cropData.y && y <= this.cropData.y + this.cropData.height
+            }
+            
+            updateCursor(x, y) {
+                const handle = this.getResizeHandle(x, y)
+                
+                if (handle) {
+                    if (handle.includes('left') && handle.includes('top') || handle.includes('right') && handle.includes('bottom')) {
+                        this.canvas.style.cursor = 'nw-resize'
+                    } else {
+                        this.canvas.style.cursor = 'ne-resize'
+                    }
+                } else if (this.isInsideCropArea(x, y)) {
+                    this.canvas.style.cursor = 'move'
+                } else {
+                    this.canvas.style.cursor = 'crosshair'
+                }
+            }
+            
+            updateCropArea() {
+                // Apply aspect ratio
+                if (this.currentAspectRatio !== 'free' && this.maintainRatio) {
+                    const ratio = this.getAspectRatioValue()
+                    if (ratio) {
+                        // Calculate maximum possible size for this aspect ratio
+                        const maxWidth = this.canvas.width - this.cropData.x
+                        const maxHeight = this.canvas.height - this.cropData.y
+                        
+                        let newWidth, newHeight
+                        
+                        if (maxWidth / maxHeight > ratio) {
+                            // Height is the limiting factor
+                            newHeight = maxHeight
+                            newWidth = newHeight * ratio
+                        } else {
+                            // Width is the limiting factor
+                            newWidth = maxWidth
+                            newHeight = newWidth / ratio
+                        }
+                        
+                        // But don't make it smaller than current size
+                        this.cropData.width = Math.max(this.cropData.width, newWidth)
+                        this.cropData.height = Math.max(this.cropData.height, newHeight)
+                        
+                        // Also don't make it larger than available space
+                        this.cropData.width = Math.min(this.cropData.width, maxWidth)
+                        this.cropData.height = Math.min(this.cropData.height, maxHeight)
+                    }
+                }
+                
+                // Constrain to canvas bounds
+                this.cropData.x = Math.max(0, Math.min(this.cropData.x, this.canvas.width - this.cropData.width))
+                this.cropData.y = Math.max(0, Math.min(this.cropData.y, this.canvas.height - this.cropData.height))
+                this.cropData.width = Math.max(10, Math.min(this.cropData.width, this.canvas.width - this.cropData.x))
+                this.cropData.height = Math.max(10, Math.min(this.cropData.height, this.canvas.height - this.cropData.y))
+                
+                // Update overlay
+                this.updateOverlay()
+                
+                // Update inputs
+                this.updateInputs()
+                
+                // Update info
+                this.updateCropInfo()
+            }
+            
+            updateOverlay() {
+                this.overlay.style.position = 'absolute'
+                this.overlay.style.left = this.cropData.x + 'px'
+                this.overlay.style.top = this.cropData.y + 'px'
+                this.overlay.style.width = this.cropData.width + 'px'
+                this.overlay.style.height = this.cropData.height + 'px'
+                this.overlay.style.border = '2px solid #3b82f6'
+                this.overlay.style.backgroundColor = 'rgba(59, 130, 246, 0.1)'
+                this.overlay.style.pointerEvents = 'none'
+            }
+            
+            updateInputs() {
+                const scaleX = this.originalImage.width / this.canvas.width
+                const scaleY = this.originalImage.height / this.canvas.height
+                
+                document.getElementById('cropWidth').value = Math.round(this.cropData.width * scaleX)
+                document.getElementById('cropHeight').value = Math.round(this.cropData.height * scaleY)
+            }
+            
+            updateImageInfo(originalWidth, originalHeight) {
+                document.getElementById('originalSize').textContent = `${originalWidth} × ${originalHeight}`
+                document.getElementById('imageInfo').style.display = 'block'
+            }
+            
+            updateCropInfo() {
+                const scaleX = this.originalImage.width / this.canvas.width
+                const scaleY = this.originalImage.height / this.canvas.height
+                
+                const actualWidth = Math.round(this.cropData.width * scaleX)
+                const actualHeight = Math.round(this.cropData.height * scaleY)
                 
                 document.getElementById('croppedSize').textContent = `${actualWidth} × ${actualHeight}`
+            }
+            
+            updateCropFromInputs() {
+                const width = parseInt(document.getElementById('cropWidth').value)
+                const height = parseInt(document.getElementById('cropHeight').value)
+                
+                if (width && height && this.originalImage) {
+                    const scaleX = this.canvas.width / this.originalImage.width
+                    const scaleY = this.canvas.height / this.originalImage.height
+                    
+                    this.cropData.width = width * scaleX
+                    this.cropData.height = height * scaleY
+                    
+                    this.updateCropArea()
+                }
+            }
+            
+            getAspectRatioValue() {
+                const ratios = {
+                    '1:1': 1,
+                    '4:3': 4/3,
+                    '16:9': 16/9,
+                    '9:16': 9/16,
+                    '3:2': 3/2,
+                    '2:3': 2/3
+                }
+                return ratios[this.currentAspectRatio]
             }
             
             setAspectRatio(ratio) {
@@ -430,140 +642,43 @@
                     btn.classList.toggle('active', btn.dataset.ratio === ratio)
                 })
                 
-                // Update dimensions if we have an image
-                if (this.originalImage && this.cropData) {
-                    this.applyAspectRatio()
-                }
-            }
-            
-            applyAspectRatio() {
-                if (this.currentAspectRatio === 'free') return
-                
-                const ratios = {
-                    '1:1': 1,
-                    '4:3': 4/3,
-                    '16:9': 16/9,
-                    '9:16': 9/16,
-                    '3:2': 3/2,
-                    '2:3': 2/3
-                }
-                
-                const ratio = ratios[this.currentAspectRatio]
-                if (!ratio) return
-                
-                const canvas = document.getElementById('cropCanvas')
-                let { width, height } = this.cropData
-                
-                if (this.currentAspectRatio.includes('16') || this.currentAspectRatio.includes('9')) {
-                    // Landscape or portrait
-                    if (width / height > ratio) {
-                        width = height * ratio
-                    } else {
-                        height = width / ratio
-                    }
-                } else {
-                    // Square or other ratios
-                    if (width > height) {
-                        height = width / ratio
-                    } else {
-                        width = height * ratio
+                // Recalculate maximum crop area for this aspect ratio
+                if (this.originalImage && this.maintainRatio) {
+                    const ratioValue = this.getAspectRatioValue()
+                    if (ratioValue && ratio !== 'free') {
+                        // Use the entire canvas to maximize crop area
+                        const canvasWidth = this.canvas.width
+                        const canvasHeight = this.canvas.height
+                        
+                        // Calculate the maximum size that fits the canvas
+                        let newWidth, newHeight
+                        
+                        if (canvasWidth / canvasHeight > ratioValue) {
+                            // Canvas is wider than ratio, height is limiting factor
+                            newHeight = canvasHeight
+                            newWidth = newHeight * ratioValue
+                        } else {
+                            // Canvas is taller than ratio, width is limiting factor
+                            newWidth = canvasWidth
+                            newHeight = newWidth / ratioValue
+                        }
+                        
+                        // Position to fill entire canvas (no gaps)
+                        this.cropData.x = 0
+                        this.cropData.y = 0
+                        this.cropData.width = newWidth
+                        this.cropData.height = newHeight
+                        
+                        this.updateOverlay()
+                        this.updateInputs()
+                        this.updateCropInfo()
                     }
                 }
-                
-                // Update crop area
-                this.cropData.width = width
-                this.cropData.height = height
-                
-                // Update overlay
-                const overlay = document.querySelector('.canvas-overlay')
-                if (overlay) {
-                    overlay.style.width = width + 'px'
-                    overlay.style.height = height + 'px'
-                }
-                
-                // Update inputs
-                document.getElementById('cropWidth').value = Math.round(width)
-                document.getElementById('cropHeight').value = Math.round(height)
-                
-                this.updateCropData(this.cropData.x, this.cropData.y, width, height)
-            }
-            
-            updateHeightFromWidth() {
-                const width = parseInt(document.getElementById('cropWidth').value)
-                if (!width || !this.originalImage) return
-                
-                const ratios = {
-                    '1:1': 1,
-                    '4:3': 4/3,
-                    '16:9': 16/9,
-                    '9:16': 9/16,
-                    '3:2': 3/2,
-                    '2:3': 2/3
-                }
-                
-                const ratio = ratios[this.currentAspectRatio]
-                if (ratio) {
-                    const height = Math.round(width / ratio)
-                    document.getElementById('cropHeight').value = height
-                }
-            }
-            
-            updateWidthFromHeight() {
-                const height = parseInt(document.getElementById('cropHeight').value)
-                if (!height || !this.originalImage) return
-                
-                const ratios = {
-                    '1:1': 1,
-                    '4:3': 4/3,
-                    '16:9': 16/9,
-                    '9:16': 9/16,
-                    '3:2': 3/2,
-                    '2:3': 2/3
-                }
-                
-                const ratio = ratios[this.currentAspectRatio]
-                if (ratio) {
-                    const width = Math.round(height * ratio)
-                    document.getElementById('cropWidth').value = width
-                }
-            }
-            
-            updateImageInfo(originalWidth, originalHeight) {
-                document.getElementById('originalSize').textContent = `${originalWidth} × ${originalHeight}`
-                document.getElementById('imageInfo').style.display = 'block'
-            }
-            
-            updateCropPreview() {
-                // This would update a live preview of the crop
-                // For now, we'll update on apply
             }
             
             resetCrop() {
                 if (!this.originalImage) return
-                
-                // Reset to full image
-                const canvas = document.getElementById('cropCanvas')
-                this.cropData = {
-                    x: 0,
-                    y: 0,
-                    width: canvas.width,
-                    height: canvas.height
-                }
-                
-                // Reset overlay
-                const overlay = document.querySelector('.canvas-overlay')
-                if (overlay) {
-                    overlay.style.left = '0'
-                    overlay.style.top = '0'
-                    overlay.style.width = canvas.width + 'px'
-                    overlay.style.height = canvas.height + 'px'
-                }
-                
-                // Reset inputs
-                document.getElementById('cropWidth').value = ''
-                document.getElementById('cropHeight').value = ''
-                
-                this.updateCropData(0, 0, canvas.width, canvas.height)
+                this.initializeCropArea()
                 toastManager.success('Crop reset to full image')
             }
             
@@ -573,9 +688,8 @@
                     return
                 }
                 
-                const canvas = document.getElementById('cropCanvas')
-                const scaleX = this.originalImage.width / canvas.width
-                const scaleY = this.originalImage.height / canvas.height
+                const scaleX = this.originalImage.width / this.canvas.width
+                const scaleY = this.originalImage.height / this.canvas.height
                 
                 const cropCanvas = document.createElement('canvas')
                 const ctx = cropCanvas.getContext('2d')
@@ -598,15 +712,11 @@
                 
                 // Update preview
                 const preview = document.getElementById('cropPreview')
-                const oldCanvas = document.getElementById('cropCanvas')
-                oldCanvas.replaceWith(cropCanvas)
-                cropCanvas.id = 'cropCanvas'
-                
-                // Remove overlay
-                const overlay = document.querySelector('.canvas-overlay')
-                if (overlay) {
-                    overlay.remove()
-                }
+                preview.innerHTML = `
+                    <div class="canvas-container">
+                        <img id="cropResult" src="${cropCanvas.toDataURL()}" style="max-width: 100%; height: auto; border: 1px solid #ddd;">
+                    </div>
+                `
                 
                 // Update UI
                 document.getElementById('applyCrop').disabled = true
@@ -648,7 +758,7 @@
             themeManager.init()
             
             // Initialize crop tool
-            const cropTool = new CropTool()
+            const cropTool = new EnhancedCropTool()
         })
     </script>
 </body>
