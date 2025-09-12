@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crop Image Online - Free Image Cropping Tool</title>
-    <meta name="description" content="Free online image cropping tool. Crop images to exact dimensions with aspect ratio presets. No registration required.">
-    <meta name="keywords" content="crop image, image cropper, online crop tool, free crop image, resize crop">
+    <title data-i18n="crop.pageTitle">Crop Image Online - Free Image Cropping Tool</title>
+    <meta name="description" content="Free online image cropping tool. Crop images to exact dimensions with aspect ratio presets. No registration required." data-i18n-content="crop.metaDescription">
+    <meta name="keywords" content="crop image, image cropper, online crop tool, free crop image, resize crop" data-i18n-content="crop.keywords">
     <meta name="author" content="Free Image Tools Online">
     <link rel="canonical" href="https://freeimagetools.online/tools/crop/">
     
@@ -67,25 +67,25 @@
     <main id="main-content">
         <div class="tool-container">
             <div class="tool-header">
-                <h1 class="tool-title">Crop Image</h1>
-                <p class="tool-description">Crop your image to desired dimensions with precise control</p>
+                <h1 class="tool-title" data-i18n="crop.title">Crop Image</h1>
+                <p class="tool-description" data-i18n="crop.description">Crop your image to desired dimensions with precise control</p>
             </div>
             
             <div class="tool-layout">
                 <!-- Controls Panel -->
                 <div class="tool-panel">
-                    <h2 class="tool-panel-title">Crop Settings</h2>
+                    <h2 class="tool-panel-title" data-i18n="crop.settingsTitle">Crop Settings</h2>
                     
                     <!-- File Upload -->
                     <div class="form-group">
-                        <file-drop-zone id="fileDrop" text="Select image to crop"></file-drop-zone>
+                        <file-drop-zone id="fileDrop" text="Select image to crop" data-i18n-text="common.dragDrop"></file-drop-zone>
                     </div>
                     
                     <!-- Aspect Ratio -->
                     <div class="form-group">
-                        <label class="form-label">Aspect Ratio</label>
+                        <label class="form-label" data-i18n="crop.aspectRatio">Aspect Ratio</label>
                         <div class="aspect-ratio-buttons">
-                            <button class="aspect-ratio-btn active" data-ratio="free">Free</button>
+                            <button class="aspect-ratio-btn active" data-ratio="free" data-i18n="crop.freeform">Free</button>
                             <button class="aspect-ratio-btn" data-ratio="1:1">1:1</button>
                             <button class="aspect-ratio-btn" data-ratio="4:3">4:3</button>
                             <button class="aspect-ratio-btn" data-ratio="16:9">16:9</button>
@@ -98,12 +98,12 @@
                     <!-- Dimensions -->
                     <div class="crop-controls">
                         <div class="form-group">
-                            <label class="form-label" for="cropWidth">Width (px)</label>
-                            <input type="number" id="cropWidth" class="form-control" placeholder="Auto" min="1">
+                            <label class="form-label" for="cropWidth" data-i18n="crop.width">Width (px)</label>
+                            <input type="number" id="cropWidth" class="form-control" placeholder="Auto" min="1" data-i18n-placeholder="crop.auto">
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="cropHeight">Height (px)</label>
-                            <input type="number" id="cropHeight" class="form-control" placeholder="Auto" min="1">
+                            <label class="form-label" for="cropHeight" data-i18n="crop.height">Height (px)</label>
+                            <input type="number" id="cropHeight" class="form-control" placeholder="Auto" min="1" data-i18n-placeholder="crop.auto">
                         </div>
                     </div>
                     
@@ -111,24 +111,24 @@
                     <div class="form-group">
                         <label class="checkbox-item">
                             <input type="checkbox" id="maintainRatio" class="checkbox-input" checked>
-                            <span class="checkbox-label">Maintain Aspect Ratio</span>
+                            <span class="checkbox-label" data-i18n="crop.maintainRatio">Maintain Aspect Ratio</span>
                         </label>
                     </div>
                     
                     <!-- Actions -->
                     <div class="tool-actions">
-                        <button id="resetCrop" class="btn btn-secondary" disabled>Reset</button>
-                        <button id="applyCrop" class="btn btn-primary" disabled>Apply Crop</button>
-                        <button id="downloadCrop" class="btn btn-success" disabled>Download</button>
+                        <button id="resetCrop" class="btn btn-secondary" disabled data-i18n="common.reset">Reset</button>
+                        <button id="applyCrop" class="btn btn-primary" disabled data-i18n="crop.applyCrop">Apply Crop</button>
+                        <button id="downloadCrop" class="btn btn-success" disabled data-i18n="common.download">Download</button>
                     </div>
                 </div>
                 
                 <!-- Preview Panel -->
                 <div class="tool-panel">
-                    <h2 class="tool-panel-title">Preview</h2>
+                    <h2 class="tool-panel-title" data-i18n="common.preview">Preview</h2>
                     <div class="image-preview" id="cropPreview">
                         <div class="image-preview-empty">
-                            <p>Upload an image to start cropping</p>
+                            <p data-i18n="crop.uploadPrompt">Upload an image to start cropping</p>
                         </div>
                     </div>
                     
@@ -136,11 +136,11 @@
                     <div id="imageInfo" class="image-preview-info" style="display: none;">
                         <div class="compress-stats">
                             <div class="compress-stat">
-                                <span class="compress-stat-label">Original Size</span>
+                                <span class="compress-stat-label" data-i18n="crop.originalSize">Original Size</span>
                                 <span class="compress-stat-value" id="originalSize">-</span>
                             </div>
                             <div class="compress-stat">
-                                <span class="compress-stat-label">Cropped Size</span>
+                                <span class="compress-stat-label" data-i18n="crop.croppedSize">Cropped Size</span>
                                 <span class="compress-stat-value" id="croppedSize">-</span>
                             </div>
                         </div>

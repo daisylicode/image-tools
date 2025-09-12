@@ -26,6 +26,8 @@ export class I18n {
       'common.share': 'Share',
       'common.siteName': 'Free Image Tools',
       'common.changeLanguage': 'Change Language',
+      'common.reset': 'Reset',
+      'common.preview': 'Preview',
       
       // Navigation
       'nav.home': 'Home',
@@ -45,17 +47,26 @@ export class I18n {
       'tools.resize': 'Resize Image',
       
       // Crop Tool
+      'crop.pageTitle': 'Crop Image Online - Free Image Cropping Tool',
+      'crop.metaDescription': 'Free online image cropping tool. Crop images to exact dimensions with aspect ratio presets. No registration required.',
+      'crop.keywords': 'crop image, image cropper, online crop tool, free crop image, resize crop',
       'crop.title': 'Crop Image',
-      'crop.description': 'Crop your image to desired dimensions',
-      'crop.width': 'Width',
-      'crop.height': 'Height',
+      'crop.description': 'Crop your image to desired dimensions with precise control',
+      'crop.settingsTitle': 'Crop Settings',
+      'crop.width': 'Width (px)',
+      'crop.height': 'Height (px)',
       'crop.aspectRatio': 'Aspect Ratio',
-      'crop.freeform': 'Freeform',
+      'crop.freeform': 'Free',
       'crop.square': 'Square',
       'crop.landscape': 'Landscape (16:9)',
       'crop.portrait': 'Portrait (9:16)',
       'crop.original': 'Original',
       'crop.maintainRatio': 'Maintain Aspect Ratio',
+      'crop.auto': 'Auto',
+      'crop.applyCrop': 'Apply Crop',
+      'crop.uploadPrompt': 'Upload an image to start cropping',
+      'crop.originalSize': 'Original Size',
+      'crop.croppedSize': 'Cropped Size',
       
       // Merge Tool
       'merge.title': 'Merge Images',
@@ -209,6 +220,8 @@ export class I18n {
       'common.share': '分享',
       'common.siteName': '免费图片工具',
       'common.changeLanguage': '切换语言',
+      'common.reset': '重置',
+      'common.preview': '预览',
       
       // Navigation
       'nav.home': '首页',
@@ -228,10 +241,14 @@ export class I18n {
       'tools.resize': '调整大小',
       
       // Crop Tool
+      'crop.pageTitle': '在线裁剪图片 - 免费图片裁剪工具',
+      'crop.metaDescription': '免费在线图片裁剪工具。使用宽高比预设将图片裁剪为精确尺寸。无需注册。',
+      'crop.keywords': '裁剪图片, 图片裁剪器, 在线裁剪工具, 免费裁剪图片, 调整裁剪',
       'crop.title': '裁剪图片',
-      'crop.description': '将图片裁剪为指定尺寸',
-      'crop.width': '宽度',
-      'crop.height': '高度',
+      'crop.description': '将图片裁剪为指定尺寸，精确控制',
+      'crop.settingsTitle': '裁剪设置',
+      'crop.width': '宽度 (像素)',
+      'crop.height': '高度 (像素)',
       'crop.aspectRatio': '宽高比',
       'crop.freeform': '自由',
       'crop.square': '正方形',
@@ -239,6 +256,11 @@ export class I18n {
       'crop.portrait': '纵向 (9:16)',
       'crop.original': '原始比例',
       'crop.maintainRatio': '保持宽高比',
+      'crop.auto': '自动',
+      'crop.applyCrop': '应用裁剪',
+      'crop.uploadPrompt': '上传图片开始裁剪',
+      'crop.originalSize': '原始尺寸',
+      'crop.croppedSize': '裁剪后尺寸',
       
       // Merge Tool
       'merge.title': '合并图片',
