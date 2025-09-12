@@ -79,50 +79,50 @@
                     <!-- Dimensions -->
                     <div class="black-image-controls">
                         <div class="form-group">
-                            <label class="form-label" for="imageWidth">Width (px)</label>
+                            <label class="form-label" for="imageWidth" data-i18n="blackImage.width">Width (px)</label>
                             <input type="number" id="imageWidth" class="form-control" value="800" min="1" max="10000">
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="imageHeight">Height (px)</label>
+                            <label class="form-label" for="imageHeight" data-i18n="blackImage.height">Height (px)</label>
                             <input type="number" id="imageHeight" class="form-control" value="600" min="1" max="10000">
                         </div>
                     </div>
                     
                     <!-- Format Selection -->
                     <div class="form-group">
-                        <label class="form-label">Format</label>
+                        <label class="form-label" data-i18n="blackImage.format">Format</label>
                         <div class="format-options">
-                            <button class="format-btn active" data-format="png">PNG</button>
-                            <button class="format-btn" data-format="jpg">JPG</button>
-                            <button class="format-btn" data-format="webp">WebP</button>
-                            <button class="format-btn" data-format="bmp">BMP</button>
+                            <button class="format-btn active" data-format="png" data-i18n="blackImage.png">PNG</button>
+                            <button class="format-btn" data-format="jpg" data-i18n="blackImage.jpg">JPG</button>
+                            <button class="format-btn" data-format="webp" data-i18n="blackImage.webp">WebP</button>
+                            <button class="format-btn" data-format="bmp" data-i18n="blackImage.bmp">BMP</button>
                         </div>
                     </div>
                     
                     <!-- Common Sizes -->
                     <div class="form-group">
-                        <label class="form-label">Common Sizes</label>
+                        <label class="form-label" data-i18n="blackImage.commonSizes">Common Sizes</label>
                         <div class="format-options">
-                            <button class="format-btn" data-size="1920x1080">1920×1080</button>
-                            <button class="format-btn" data-size="1280x720">1280×720</button>
-                            <button class="format-btn" data-size="800x600">800×600</button>
-                            <button class="format-btn" data-size="640x480">640×480</button>
+                            <button class="format-btn" data-size="1920x1080" data-i18n="blackImage.size1920x1080">1920×1080</button>
+                            <button class="format-btn" data-size="1280x720" data-i18n="blackImage.size1280x720">1280×720</button>
+                            <button class="format-btn" data-size="800x600" data-i18n="blackImage.size800x600">800×600</button>
+                            <button class="format-btn" data-size="640x480" data-i18n="blackImage.size640x480">640×480</button>
                         </div>
                     </div>
                     
                     <!-- Actions -->
                     <div class="tool-actions">
-                        <button id="createImage" class="btn btn-primary">Create Image</button>
-                        <button id="downloadImage" class="btn btn-success" disabled>Download</button>
+                        <button id="createImage" class="btn btn-primary" data-i18n="blackImage.create">Create Image</button>
+                        <button id="downloadImage" class="btn btn-success" disabled data-i18n="common.download">Download</button>
                     </div>
                 </div>
                 
                 <!-- Preview Panel -->
                 <div class="tool-panel">
-                    <h2 class="tool-panel-title">Preview</h2>
+                    <h2 class="tool-panel-title" data-i18n="common.preview">Preview</h2>
                     <div class="image-preview" id="blackImagePreview">
                         <div class="image-preview-empty">
-                            <p>Click "Create Image" to generate a black image</p>
+                            <p data-i18n="blackImage.uploadPrompt">Click "Create Image" to generate a black image</p>
                         </div>
                     </div>
                     
@@ -130,11 +130,11 @@
                     <div id="imageInfo" class="image-preview-info" style="display: none;">
                         <div class="compress-stats">
                             <div class="compress-stat">
-                                <span class="compress-stat-label">Dimensions</span>
+                                <span class="compress-stat-label" data-i18n="blackImage.dimensions">Dimensions</span>
                                 <span class="compress-stat-value" id="imageDimensions">-</span>
                             </div>
                             <div class="compress-stat">
-                                <span class="compress-stat-label">Format</span>
+                                <span class="compress-stat-label" data-i18n="blackImage.format">Format</span>
                                 <span class="compress-stat-value" id="imageFormat">-</span>
                             </div>
                         </div>

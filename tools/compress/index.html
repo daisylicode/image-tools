@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compress Image Online - Free Image Compression Tool</title>
-    <meta name="description" content="Free online image compression tool. Reduce image file size while maintaining quality. Batch processing supported.">
-    <meta name="keywords" content="compress image, image compression, reduce file size, optimize image, photo compressor">
+    <title data-i18n="compress.pageTitle">Compress Image Online - Free Image Compression Tool</title>
+    <meta name="description" content="Free online image compression tool. Reduce image file size while maintaining quality. Batch processing supported." data-i18n-content="compress.metaDescription">
+    <meta name="keywords" content="compress image, image compression, reduce file size, optimize image, photo compressor" data-i18n-content="compress.keywords">
     <meta name="author" content="Free Image Tools Online">
     <link rel="canonical" href="https://freeimagetools.online/tools/compress/">
     
@@ -67,24 +67,24 @@
     <main id="main-content">
         <div class="tool-container">
             <div class="tool-header">
-                <h1 class="tool-title">Compress Image</h1>
-                <p class="tool-description">Reduce image file size while maintaining quality</p>
+                <h1 class="tool-title" data-i18n="compress.title">Compress Image</h1>
+                <p class="tool-description" data-i18n="compress.description">Reduce image file size while maintaining quality</p>
             </div>
             
             <div class="tool-layout">
                 <!-- Controls Panel -->
                 <div class="tool-panel">
-                    <h2 class="tool-panel-title">Compression Settings</h2>
+                    <h2 class="tool-panel-title" data-i18n="compress.settingsTitle">Compression Settings</h2>
                     
                     <!-- File Upload -->
                     <div class="form-group">
-                        <file-drop-zone id="fileDrop" text="Select image to compress"></file-drop-zone>
+                        <file-drop-zone id="fileDrop" text="Select image to compress" data-i18n-text="compress.uploadPrompt"></file-drop-zone>
                     </div>
                     
                     <!-- Quality -->
                     <div class="range-group">
                         <div class="range-label">
-                            <span class="range-title">Quality</span>
+                            <span class="range-title" data-i18n="compress.quality">Quality</span>
                             <span class="range-value" id="qualityValue">80%</span>
                         </div>
                         <input type="range" id="quality" class="range-slider" min="10" max="100" value="80">
@@ -92,49 +92,49 @@
                     
                     <!-- Max Dimensions -->
                     <div class="form-group">
-                        <label class="form-label" for="maxWidth">Max Width (px)</label>
-                        <input type="number" id="maxWidth" class="form-control" placeholder="No limit" min="1">
+                        <label class="form-label" for="maxWidth" data-i18n="compress.maxWidth">Max Width (px)</label>
+                        <input type="number" id="maxWidth" class="form-control" placeholder="No limit" min="1" data-i18n-placeholder="compress.noLimit">
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label" for="maxHeight">Max Height (px)</label>
-                        <input type="number" id="maxHeight" class="form-control" placeholder="No limit" min="1">
+                        <label class="form-label" for="maxHeight" data-i18n="compress.maxHeight">Max Height (px)</label>
+                        <input type="number" id="maxHeight" class="form-control" placeholder="No limit" min="1" data-i18n-placeholder="compress.noLimit">
                     </div>
                     
                     <!-- Format -->
                     <div class="form-group">
-                        <label class="form-label" for="outputFormat">Output Format</label>
+                        <label class="form-label" for="outputFormat" data-i18n="compress.outputFormat">Output Format</label>
                         <select id="outputFormat" class="select-control">
-                            <option value="jpeg">JPEG</option>
-                            <option value="png">PNG</option>
-                            <option value="webp">WebP</option>
+                            <option value="jpeg" data-i18n="compress.jpeg">JPEG</option>
+                            <option value="png" data-i18n="compress.png">PNG</option>
+                            <option value="webp" data-i18n="compress.webp">WebP</option>
                         </select>
                     </div>
                     
                     <!-- Actions -->
                     <div class="tool-actions">
-                        <button id="compressImage" class="btn btn-primary" disabled>Compress Image</button>
-                        <button id="downloadCompressed" class="btn btn-success" disabled>Download</button>
+                        <button id="compressImage" class="btn btn-primary" disabled data-i18n="compress.compressImage">Compress Image</button>
+                        <button id="downloadCompressed" class="btn btn-success" disabled data-i18n="common.download">Download</button>
                     </div>
                 </div>
                 
                 <!-- Preview Panel -->
                 <div class="tool-panel">
-                    <h2 class="tool-panel-title">Preview</h2>
+                    <h2 class="tool-panel-title" data-i18n="common.preview">Preview</h2>
                     <div class="compress-preview">
                         <div class="compress-before">
-                            <div class="compress-label">Original</div>
+                            <div class="compress-label" data-i18n="compress.original">Original</div>
                             <div class="compress-image" id="originalPreview">
                                 <div class="image-preview-empty">
-                                    <p>Upload an image to compress</p>
+                                    <p data-i18n="compress.uploadPrompt">Upload an image to compress</p>
                                 </div>
                             </div>
                         </div>
                         <div class="compress-after">
-                            <div class="compress-label">Compressed</div>
+                            <div class="compress-label" data-i18n="compress.compressed">Compressed</div>
                             <div class="compress-image" id="compressedPreview">
                                 <div class="image-preview-empty">
-                                    <p>Compressed image will appear here</p>
+                                    <p data-i18n="compress.compressedPrompt">Compressed image will appear here</p>
                                 </div>
                             </div>
                         </div>
@@ -143,15 +143,15 @@
                     <!-- Compression Stats -->
                     <div id="compressionStats" class="compress-stats" style="display: none;">
                         <div class="compress-stat">
-                            <span class="compress-stat-label">Original Size</span>
+                            <span class="compress-stat-label" data-i18n="compress.originalSize">Original Size</span>
                             <span class="compress-stat-value" id="originalSize">-</span>
                         </div>
                         <div class="compress-stat">
-                            <span class="compress-stat-label">Compressed Size</span>
+                            <span class="compress-stat-label" data-i18n="compress.compressedSize">Compressed Size</span>
                             <span class="compress-stat-value" id="compressedSize">-</span>
                         </div>
                         <div class="compress-stat">
-                            <span class="compress-stat-label">Savings</span>
+                            <span class="compress-stat-label" data-i18n="compress.savings">Savings</span>
                             <span class="compress-stat-value compress-savings" id="savings">-</span>
                         </div>
                     </div>

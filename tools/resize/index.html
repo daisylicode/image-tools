@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resize Image Online - Free Image Resizing Tool</title>
-    <meta name="description" content="Free online image resizing tool. Change image dimensions with aspect ratio control. Multiple formats supported.">
-    <meta name="keywords" content="resize image, image resizer, change dimensions, scale image, photo resize">
+    <title data-i18n="resize.pageTitle">Resize Image Online - Free Image Resizing Tool</title>
+    <meta name="description" content="Free online image resizing tool. Change image dimensions with aspect ratio control. Multiple formats supported." data-i18n-content="resize.metaDescription">
+    <meta name="keywords" content="resize image, image resizer, change dimensions, scale image, photo resize" data-i18n-content="resize.keywords">
     <meta name="author" content="Free Image Tools Online">
     <link rel="canonical" href="https://freeimagetools.online/tools/resize/">
     
@@ -67,78 +67,78 @@
     <main id="main-content">
         <div class="tool-container">
             <div class="tool-header">
-                <h1 class="tool-title">Resize Image</h1>
-                <p class="tool-description">Change image dimensions with precise control</p>
+                <h1 class="tool-title" data-i18n="resize.title">Resize Image</h1>
+                <p class="tool-description" data-i18n="resize.description">Change image dimensions with precise control</p>
             </div>
             
             <div class="tool-layout">
                 <!-- Controls Panel -->
                 <div class="tool-panel">
-                    <h2 class="tool-panel-title">Resize Settings</h2>
+                    <h2 class="tool-panel-title" data-i18n="resize.settingsTitle">Resize Settings</h2>
                     
                     <!-- File Upload -->
                     <div class="form-group">
-                        <file-drop-zone id="fileDrop" text="Select image to resize"></file-drop-zone>
+                        <file-drop-zone id="fileDrop" text="Select image to resize" data-i18n-text="resize.uploadPrompt"></file-drop-zone>
                     </div>
                     
                     <!-- Resize Mode -->
                     <div class="form-group">
-                        <label class="form-label">Resize Mode</label>
+                        <label class="form-label" data-i18n="resize.resizeMode">Resize Mode</label>
                         <div class="resize-modes">
-                            <button class="resize-mode-btn active" data-mode="pixels">Pixels</button>
-                            <button class="resize-mode-btn" data-mode="percentage">Percentage</button>
+                            <button class="resize-mode-btn active" data-mode="pixels" data-i18n="resize.pixels">Pixels</button>
+                            <button class="resize-mode-btn" data-mode="percentage" data-i18n="resize.percentage">Percentage</button>
                         </div>
                     </div>
                     
                     <!-- Pixels Mode -->
                     <div id="pixelsMode" class="resize-dimensions">
                         <div class="form-group">
-                            <label class="form-label" for="resizeWidth">Width (px)</label>
-                            <input type="number" id="resizeWidth" class="form-control" placeholder="Auto" min="1">
+                            <label class="form-label" for="resizeWidth" data-i18n="resize.width">Width (px)</label>
+                            <input type="number" id="resizeWidth" class="form-control" placeholder="Auto" min="1" data-i18n-placeholder="resize.auto">
                         </div>
                         <div class="resize-lock">
-                            <button id="aspectRatioLock" class="resize-lock-btn active" title="Lock aspect ratio">
+                            <button id="aspectRatioLock" class="resize-lock-btn active" title="Lock aspect ratio" data-i18n-title="resize.lockAspectRatio">
                                 🔒
                             </button>
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="resizeHeight">Height (px)</label>
-                            <input type="number" id="resizeHeight" class="form-control" placeholder="Auto" min="1">
+                            <label class="form-label" for="resizeHeight" data-i18n="resize.height">Height (px)</label>
+                            <input type="number" id="resizeHeight" class="form-control" placeholder="Auto" min="1" data-i18n-placeholder="resize.auto">
                         </div>
                     </div>
                     
                     <!-- Percentage Mode -->
                     <div id="percentageMode" class="resize-dimensions" style="display: none;">
                         <div class="form-group">
-                            <label class="form-label" for="resizePercentage">Scale (%)</label>
+                            <label class="form-label" for="resizePercentage" data-i18n="resize.scale">Scale (%)</label>
                             <input type="number" id="resizePercentage" class="form-control" value="100" min="1" max="500">
                         </div>
                     </div>
                     
                     <!-- Output Format -->
                     <div class="form-group">
-                        <label class="form-label" for="outputFormat">Output Format</label>
+                        <label class="form-label" for="outputFormat" data-i18n="resize.outputFormat">Output Format</label>
                         <select id="outputFormat" class="select-control">
-                            <option value="png">PNG</option>
-                            <option value="jpeg">JPEG</option>
-                            <option value="webp">WebP</option>
+                            <option value="png" data-i18n="resize.png">PNG</option>
+                            <option value="jpeg" data-i18n="resize.jpeg">JPEG</option>
+                            <option value="webp" data-i18n="resize.webp">WebP</option>
                         </select>
                     </div>
                     
                     <!-- Actions -->
                     <div class="tool-actions">
-                        <button id="resetResize" class="btn btn-secondary" disabled>Reset</button>
-                        <button id="applyResize" class="btn btn-primary" disabled>Apply Resize</button>
-                        <button id="downloadResized" class="btn btn-success" disabled>Download</button>
+                        <button id="resetResize" class="btn btn-secondary" disabled data-i18n="common.reset">Reset</button>
+                        <button id="applyResize" class="btn btn-primary" disabled data-i18n="resize.applyResize">Apply Resize</button>
+                        <button id="downloadResized" class="btn btn-success" disabled data-i18n="common.download">Download</button>
                     </div>
                 </div>
                 
                 <!-- Preview Panel -->
                 <div class="tool-panel">
-                    <h2 class="tool-panel-title">Preview</h2>
+                    <h2 class="tool-panel-title" data-i18n="common.preview">Preview</h2>
                     <div class="image-preview" id="resizePreview">
                         <div class="image-preview-empty">
-                            <p>Upload an image to resize</p>
+                            <p data-i18n="resize.uploadPrompt">Upload an image to resize</p>
                         </div>
                     </div>
                     
@@ -146,11 +146,11 @@
                     <div id="imageInfo" class="image-preview-info" style="display: none;">
                         <div class="compress-stats">
                             <div class="compress-stat">
-                                <span class="compress-stat-label">Original Size</span>
+                                <span class="compress-stat-label" data-i18n="resize.originalSize">Original Size</span>
                                 <span class="compress-stat-value" id="originalSize">-</span>
                             </div>
                             <div class="compress-stat">
-                                <span class="compress-stat-label">Resized Size</span>
+                                <span class="compress-stat-label" data-i18n="resize.resizedSize">Resized Size</span>
                                 <span class="compress-stat-value" id="resizedSize">-</span>
                             </div>
                         </div>
