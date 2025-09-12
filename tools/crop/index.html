@@ -61,51 +61,7 @@
     <a href="#main-content" class="skip-to-content">Skip to content</a>
     
     <!-- Header -->
-    <header class="header">
-      <div class="header-container">
-        <a href="/" class="logo">
-          <img src="/assets/logo.svg" alt="Free Image Tools" class="logo-img">
-          <span class="logo-text">Free Image Tools</span>
-        </a>
-        
-        <nav class="nav">
-          <ul class="nav-list">
-            <li class="nav-item">
-              <a href="/" class="nav-link" data-page="index">Home</a>
-            </li>
-            <li class="nav-item">
-              <a href="/tools/crop/" class="nav-link active" data-page="crop">Crop</a>
-            </li>
-            <li class="nav-item">
-              <a href="/tools/merge/" class="nav-link" data-page="merge">Merge</a>
-            </li>
-            <li class="nav-item">
-              <a href="/tools/remove-object/" class="nav-link" data-page="remove-object">Remove</a>
-            </li>
-            <li class="nav-item">
-              <a href="/tools/black-image/" class="nav-link" data-page="black-image">Black</a>
-            </li>
-            <li class="nav-item">
-              <a href="/tools/compress/" class="nav-link" data-page="compress">Compress</a>
-            </li>
-            <li class="nav-item">
-              <a href="/tools/resize/" class="nav-link" data-page="resize">Resize</a>
-            </li>
-          </ul>
-        </nav>
-        
-        <div class="header-actions">
-          <button class="lang-toggle" id="langToggle" title="Change Language">
-            🌐
-          </button>
-          <button class="mobile-menu-toggle" id="mobileMenuToggle">
-            <span class="hamburger"></span>
-            <span class="hamburger"></span>
-            <span class="hamburger"></span>
-          </button>
-        </div>
-      </div>
-    </header>
+    <div id="header-container"></div>
     
     <!-- Main Content -->
     <main id="main-content">
@@ -195,7 +151,7 @@
     </main>
     
     <!-- Footer -->
-    <app-footer></app-footer>
+    <div id="footer-container"></div>
     
     <!-- Scripts -->
     <script type="module" src="/scripts/ui/header.js"></script>
@@ -206,6 +162,7 @@
     <script type="module" src="/scripts/ui/file-drop.js"></script>
     <script type="module" src="/scripts/core/image-utils.js"></script>
     <script type="module" src="/scripts/core/download.js"></script>
+    <script type="module" src="/scripts/ui/layout-components.js"></script>
     
     <!-- Enhanced Crop Tool Script -->
     <script type="module">
@@ -214,6 +171,7 @@
         import toastManager from '/scripts/ui/toasts.js'
         import { ImageUtils } from '/scripts/core/image-utils.js'
         import { DownloadUtils } from '/scripts/core/download.js'
+        import LayoutComponents from '/scripts/ui/layout-components.js'
         
         class EnhancedCropTool {
             constructor() {
@@ -751,6 +709,10 @@
         
         // Initialize crop tool when DOM is ready
         document.addEventListener('DOMContentLoaded', () => {
+            // Initialize layout components
+            const layout = new LayoutComponents()
+            layout.init()
+            
             // Initialize i18n
             I18n.init()
             
