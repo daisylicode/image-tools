@@ -3,9 +3,6 @@
  * Handles image compression in a separate thread
  */
 
-// Import scripts for image processing
-importScripts('https://cdnjs.cloudflare.com/ajax/libs/compressor.js/1.2.1/compressor.min.js')
-
 self.onmessage = async function(e) {
   const { type, data, taskId } = e.data
   
@@ -38,124 +35,74 @@ async function compressImage(options) {
   const { imageData, quality = 0.8, maxWidth = null, maxHeight = null, format = 'jpeg' } = options
   
   return new Promise((resolve, reject) => {
-    // Create image from data URL
-    const img = new Image()
-    img.onload = function() {
-      // Calculate new dimensions
-      let { width, height } = img
-      
-      if (maxWidth && width > maxWidth) {
-        height = (height * maxWidth) / width
-        width = maxWidth
-      }
-      
-      if (maxHeight && height > maxHeight) {
-        width = (width * maxHeight) / height
-        height = maxHeight
-      }
-      
-      // Create canvas for compression
-      const canvas = document.createElement('canvas')
-      const ctx = canvas.getContext('2d')
-      canvas.width = width
-      canvas.height = height
-      
-      // Draw image
-      ctx.drawImage(img, 0, 0, width, height)
-      
-      // Get compressed blob
-      canvas.toBlob(
-        (blob) => {
-          if (!blob) {
-            reject(new Error('Compression failed'))
-            return
+    // Create image from data URL using OffscreenCanvas (if available) or fallback
+    if (typeof OffscreenCanvas !== 'undefined') {
+      // Use OffscreenCanvas for better performance in workers
+      const img = new Image()
+      img.onload = function() {
+        try {
+          // Calculate new dimensions
+          let { width, height } = img
+          
+          if (maxWidth && width > maxWidth) {
+            height = (height * maxWidth) / width
+            width = maxWidth
           }
           
-          // Convert blob to data URL for transfer
-          const reader = new FileReader()
-          reader.onload = () => {
-            resolve({
-              compressedData: reader.result,
-              originalSize: imageData.length,
-              compressedSize: blob.size,
-              width,
-              height,
-              format,
-              quality
-            })
-          }
-          reader.readAsDataURL(blob)
-        },
-        `image/${format}`,
-        quality
-      )
-    }
-    
-    img.onerror = () => reject(new Error('Failed to load image'))
-    img.src = imageData
-  })
-}
-
-// Alternative compression implementation without external library
-async function compressImageNative(options) {
-  const { imageData, quality = 0.8, maxWidth = null, maxHeight = null, format = 'jpeg' } = options
-  
-  return new Promise((resolve, reject) => {
-    const img = new Image()
-    img.onload = function() {
-      let { width, height } = img
-      
-      // Calculate new dimensions
-      if (maxWidth && width > maxWidth) {
-        height = (height * maxWidth) / width
-        width = maxWidth
-      }
-      
-      if (maxHeight && height > maxHeight) {
-        width = (width * maxHeight) / height
-        height = maxHeight
-      }
-      
-      const canvas = document.createElement('canvas')
-      const ctx = canvas.getContext('2d')
-      canvas.width = width
-      canvas.height = height
-      
-      // Enable image smoothing for better quality
-      ctx.imageSmoothingEnabled = true
-      ctx.imageSmoothingQuality = 'high'
-      
-      // Draw image
-      ctx.drawImage(img, 0, 0, width, height)
-      
-      // Convert to blob
-      canvas.toBlob(
-        (blob) => {
-          if (!blob) {
-            reject(new Error('Compression failed'))
-            return
+          if (maxHeight && height > maxHeight) {
+            width = (width * maxHeight) / height
+            height = maxHeight
           }
           
-          const reader = new FileReader()
-          reader.onload = () => {
-            resolve({
-              compressedData: reader.result,
-              originalSize: imageData.length,
-              compressedSize: blob.size,
-              width,
-              height,
-              format,
-              quality
-            })
-          }
-          reader.readAsDataURL(blob)
-        },
-        `image/${format}`,
-        quality
-      )
+          // Create OffscreenCanvas for compression
+          const canvas = new OffscreenCanvas(width, height)
+          const ctx = canvas.getContext('2d')
+          
+          // Enable image smoothing for better quality
+          ctx.imageSmoothingEnabled = true
+          ctx.imageSmoothingQuality = 'high'
+          
+          // Draw image
+          ctx.drawImage(img, 0, 0, width, height)
+          
+          // Convert to blob
+          canvas.convertToBlob({
+            type: `image/${format}`,
+            quality: quality
+          }).then(blob => {
+            if (!blob) {
+              reject(new Error('Compression failed'))
+              return
+            }
+            
+            // Convert blob to data URL for transfer
+            const reader = new FileReader()
+            reader.onload = () => {
+              resolve({
+                compressedData: reader.result,
+                originalSize: imageData.length,
+                compressedSize: blob.size,
+                width,
+                height,
+                format,
+                quality
+              })
+            }
+            reader.onerror = () => reject(new Error('Failed to read blob'))
+            reader.readAsDataURL(blob)
+          }).catch(err => {
+            reject(new Error('Canvas conversion failed: ' + err.message))
+          })
+        } catch (error) {
+          reject(new Error('Image processing failed: ' + error.message))
+        }
+      }
+      
+      img.onerror = () => reject(new Error('Failed to load image'))
+      img.src = imageData
+    } else {
+      // Fallback: return error for browsers without OffscreenCanvas support
+      reject(new Error('OffscreenCanvas not supported in this browser. Please use the main thread compression.'))
     }
-    
-    img.onerror = () => reject(new Error('Failed to load image'))
-    img.src = imageData
   })
 }

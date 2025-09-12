@@ -24,6 +24,17 @@ export class I18n {
       'common.close': 'Close',
       'common.copy': 'Copy',
       'common.share': 'Share',
+      'common.siteName': 'Free Image Tools',
+      'common.changeLanguage': 'Change Language',
+      
+      // Navigation
+      'nav.home': 'Home',
+      'nav.crop': 'Crop',
+      'nav.merge': 'Merge',
+      'nav.removeObject': 'Remove',
+      'nav.blackImage': 'Black',
+      'nav.compress': 'Compress',
+      'nav.resize': 'Resize',
       
       // Tools
       'tools.crop': 'Crop Image',
@@ -136,6 +147,17 @@ export class I18n {
       'common.close': '关闭',
       'common.copy': '复制',
       'common.share': '分享',
+      'common.siteName': '免费图片工具',
+      'common.changeLanguage': '切换语言',
+      
+      // Navigation
+      'nav.home': '首页',
+      'nav.crop': '裁剪',
+      'nav.merge': '合并',
+      'nav.removeObject': '移除',
+      'nav.blackImage': '纯黑',
+      'nav.compress': '压缩',
+      'nav.resize': '调整大小',
       
       // Tools
       'tools.crop': '裁剪图片',
