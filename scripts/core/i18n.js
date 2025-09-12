@@ -125,7 +125,67 @@ export class I18n {
       'legal.copyright': 'Only use these tools on images you own or have permission to edit.',
       'legal.privacy': 'Privacy First: Your images are processed locally and never leave your device.',
       
+      // Home Page
+      'home.heroTitle': 'Free Image Tools Online',
+      'home.heroDescription': 'Transform your images with powerful, browser-based tools. No registration required. Complete privacy guaranteed.',
+      'home.featurePrivate': '100% Private',
+      'home.featureFast': 'Lightning Fast',
+      'home.featureFree': 'Completely Free',
+      'home.toolsTitle': 'Image Processing Tools',
+      'home.cropDescription': 'Crop your images to perfect dimensions with aspect ratio presets',
+      'home.cropFeature1': 'Freeform crop',
+      'home.cropFeature2': 'Aspect ratios',
+      'home.cropFeature3': 'Preview',
+      'home.mergeDescription': 'Combine multiple images into one with customizable layouts',
+      'home.mergeFeature1': 'Horizontal/Vertical',
+      'home.mergeFeature2': 'Custom spacing',
+      'home.mergeFeature3': 'Background color',
+      'home.removeObjectDescription': 'Remove unwanted objects from your photos with AI-powered inpainting',
+      'home.removeObjectFeature1': 'Smart removal',
+      'home.removeObjectFeature2': 'Brush tool',
+      'home.removeObjectFeature3': 'Preview',
+      'home.blackImageDescription': 'Create solid black images with custom dimensions',
+      'home.blackImageFeature1': 'Custom sizes',
+      'home.blackImageFeature2': 'Multiple formats',
+      'home.blackImageFeature3': 'Instant download',
+      'home.compressDescription': 'Reduce image file size while maintaining quality',
+      'home.compressFeature1': 'Quality control',
+      'home.compressFeature2': 'Size comparison',
+      'home.compressFeature3': 'Batch processing',
+      'home.resizeDescription': 'Change image dimensions with aspect ratio control',
+      'home.resizeFeature1': 'Pixels or percentage',
+      'home.resizeFeature2': 'Lock aspect ratio',
+      'home.resizeFeature3': 'Multiple formats',
+      'home.featuresTitle': 'Why Choose Our Tools?',
+      'home.featurePrivacyTitle': 'Complete Privacy',
+      'home.featurePrivacyDesc': 'All processing happens in your browser. Your images never leave your device.',
+      'home.featureSpeedTitle': 'Lightning Fast',
+      'home.featureSpeedDesc': 'Powered by modern web technologies for instant processing without waiting.',
+      'home.featureMobileTitle': 'Mobile Friendly',
+      'home.featureMobileDesc': 'Works perfectly on all devices - desktop, tablet, and mobile.',
+      'home.featureFreeTitle': 'Always Free',
+      'home.featureFreeDesc': 'No hidden costs, no registration required. Always free to use.',
+      'home.featureQualityTitle': 'Professional Quality',
+      'home.featureQualityDesc': 'High-quality algorithms ensure your images look their best.',
+      'home.featureMultiLangTitle': 'Multi-language',
+      'home.featureMultiLangDesc': 'Available in multiple languages with more coming soon.',
+      'home.howItWorksTitle': 'How It Works',
+      'home.step1Title': 'Choose a Tool',
+      'home.step1Desc': 'Select the image processing tool you need from our collection.',
+      'home.step2Title': 'Upload Your Image',
+      'home.step2Desc': 'Upload your image or drag and drop it into the tool.',
+      'home.step3Title': 'Adjust Settings',
+      'home.step3Desc': 'Customize the processing options to your needs.',
+      'home.step4Title': 'Download Result',
+      'home.step4Desc': 'Download your processed image instantly.',
+      'home.formatsTitle': 'Supported Formats',
+      'home.formatJpegDesc': 'Best for photos and complex images',
+      'home.formatPngDesc': 'Supports transparency and lossless compression',
+      'home.formatWebpDesc': 'Modern format with superior compression',
+      'home.formatGifDesc': 'Supports animation and transparency',
+      
       // SEO
+      'seo.pageTitle': 'Free Image Tools Online - Crop, Merge, Compress, Resize Images',
       'seo.metaDescription': 'Free online image processing tools. Crop, merge, compress, resize images and remove objects directly in your browser.',
       'seo.keywords': 'image tools, crop image, merge images, compress image, resize image, remove object, online, free'
     },
@@ -248,7 +308,67 @@ export class I18n {
       'legal.copyright': '只能在这些工具中使用您拥有或有权编辑的图片。',
       'legal.privacy': '隐私优先：您的图片在本地处理，永远不会离开您的设备。',
       
+      // Home Page
+      'home.heroTitle': '免费在线图片工具',
+      'home.heroDescription': '使用强大的浏览器端工具转换您的图片。无需注册。完全隐私保护。',
+      'home.featurePrivate': '100% 隐私',
+      'home.featureFast': '极速处理',
+      'home.featureFree': '完全免费',
+      'home.toolsTitle': '图片处理工具',
+      'home.cropDescription': '将图片裁剪为完美尺寸，支持宽高比预设',
+      'home.cropFeature1': '自由裁剪',
+      'home.cropFeature2': '宽高比',
+      'home.cropFeature3': '预览',
+      'home.mergeDescription': '将多张图片合并为一张，支持自定义布局',
+      'home.mergeFeature1': '横向/纵向',
+      'home.mergeFeature2': '自定义间距',
+      'home.mergeFeature3': '背景颜色',
+      'home.removeObjectDescription': '使用AI智能修复技术从照片中移除不需要的对象',
+      'home.removeObjectFeature1': '智能移除',
+      'home.removeObjectFeature2': '画笔工具',
+      'home.removeObjectFeature3': '预览',
+      'home.blackImageDescription': '创建指定尺寸的纯黑图片',
+      'home.blackImageFeature1': '自定义尺寸',
+      'home.blackImageFeature2': '多种格式',
+      'home.blackImageFeature3': '即时下载',
+      'home.compressDescription': '在保持质量的同时减小图片文件大小',
+      'home.compressFeature1': '质量控制',
+      'home.compressFeature2': '大小对比',
+      'home.compressFeature3': '批量处理',
+      'home.resizeDescription': '更改图片尺寸，支持宽高比控制',
+      'home.resizeFeature1': '像素或百分比',
+      'home.resizeFeature2': '锁定宽高比',
+      'home.resizeFeature3': '多种格式',
+      'home.featuresTitle': '为什么选择我们的工具？',
+      'home.featurePrivacyTitle': '完全隐私',
+      'home.featurePrivacyDesc': '所有处理都在您的浏览器中完成。您的图片永远不会离开您的设备。',
+      'home.featureSpeedTitle': '极速处理',
+      'home.featureSpeedDesc': '采用现代网络技术，实现即时处理，无需等待。',
+      'home.featureMobileTitle': '移动友好',
+      'home.featureMobileDesc': '在所有设备上完美运行 - 桌面、平板和手机。',
+      'home.featureFreeTitle': '永远免费',
+      'home.featureFreeDesc': '无隐藏费用，无需注册。永远免费使用。',
+      'home.featureQualityTitle': '专业品质',
+      'home.featureQualityDesc': '高质量算法确保您的图片呈现最佳效果。',
+      'home.featureMultiLangTitle': '多语言',
+      'home.featureMultiLangDesc': '支持多种语言，更多语言即将推出。',
+      'home.howItWorksTitle': '使用方法',
+      'home.step1Title': '选择工具',
+      'home.step1Desc': '从我们的工具集合中选择您需要的图片处理工具。',
+      'home.step2Title': '上传图片',
+      'home.step2Desc': '上传您的图片或将其拖拽到工具中。',
+      'home.step3Title': '调整设置',
+      'home.step3Desc': '根据需要自定义处理选项。',
+      'home.step4Title': '下载结果',
+      'home.step4Desc': '立即下载处理后的图片。',
+      'home.formatsTitle': '支持的格式',
+      'home.formatJpegDesc': '最适合照片和复杂图片',
+      'home.formatPngDesc': '支持透明度和无损压缩',
+      'home.formatWebpDesc': '现代格式，具有卓越的压缩性能',
+      'home.formatGifDesc': '支持动画和透明度',
+      
       // SEO
+      'seo.pageTitle': '免费在线图片工具 - 裁剪、合并、压缩、调整图片大小',
       'seo.metaDescription': '免费在线图片处理工具。在浏览器中直接裁剪、合并、压缩、调整图片大小和移除对象。',
       'seo.keywords': '图片工具, 裁剪图片, 合并图片, 压缩图片, 调整图片大小, 移除对象, 在线, 免费'
     }
@@ -316,6 +436,19 @@ export class I18n {
       const key = element.getAttribute('data-i18n-html')
       element.innerHTML = this.t(key)
     })
+
+    // Update content attributes (for meta tags)
+    document.querySelectorAll('[data-i18n-content]').forEach(element => {
+      const key = element.getAttribute('data-i18n-content')
+      element.setAttribute('content', this.t(key))
+    })
+
+    // Update document title
+    const titleElement = document.querySelector('title[data-i18n]')
+    if (titleElement) {
+      const key = titleElement.getAttribute('data-i18n')
+      document.title = this.t(key)
+    }
 
     // Update document direction for RTL languages
     document.documentElement.lang = this.currentLang
