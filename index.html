@@ -309,11 +309,11 @@
         import themeManager from '/scripts/ui/theme.js'
         import LayoutComponents from '/scripts/ui/layout-components.js'
         
-        // Initialize i18n
-        I18n.init()
-        
         // Initialize theme and layout
         document.addEventListener('DOMContentLoaded', () => {
+            // Initialize i18n first
+            I18n.init()
+            
             // Initialize layout components
             const layout = new LayoutComponents()
             layout.init()

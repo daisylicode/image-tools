@@ -31,6 +31,20 @@ export class LayoutComponents {
         if (!document.querySelector('footer')) {
             this.footer.mount('body')
         }
+        
+        // 监听语言切换事件
+        this.setupLanguageListener()
+    }
+    
+    /**
+     * 设置语言切换监听器
+     */
+    setupLanguageListener() {
+        window.addEventListener('languageChange', () => {
+            // 重新初始化header和footer以更新语言
+            this.header.replace('header')
+            this.footer.replace('footer')
+        })
     }
 
     /**

@@ -85,6 +85,8 @@ export class HeaderComponent {
             // 在目标元素的开头插入header
             target.insertAdjacentHTML('afterbegin', this.render())
             this.setupEventListeners()
+            // 更新i18n文本内容
+            this.updateI18nContent()
         }
     }
 
@@ -96,6 +98,8 @@ export class HeaderComponent {
         if (existingHeader) {
             existingHeader.outerHTML = this.render()
             this.setupEventListeners()
+            // 更新i18n文本内容
+            this.updateI18nContent()
         }
     }
 
@@ -182,6 +186,18 @@ export class HeaderComponent {
             }, 100)
         } catch (error) {
             console.error('Failed to load language selector:', error)
+        }
+    }
+
+    /**
+     * 更新i18n内容
+     */
+    async updateI18nContent() {
+        try {
+            const { I18n } = await import('/scripts/core/i18n.js')
+            I18n.updatePage()
+        } catch (error) {
+            console.error('Failed to update i18n content:', error)
         }
     }
 
