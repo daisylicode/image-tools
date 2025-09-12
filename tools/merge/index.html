@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merge Images Online - Free Image Combination Tool</title>
-    <meta name="description" content="Free online image merging tool. Combine multiple images into one with customizable layouts. No registration required.">
-    <meta name="keywords" content="merge images, combine images, image merger, online merge tool, photo collage">
+    <title data-i18n="merge.pageTitle">Merge Images Online - Free Image Combination Tool</title>
+    <meta name="description" content="Free online image merging tool. Combine multiple images into one with customizable layouts. No registration required." data-i18n-content="merge.metaDescription">
+    <meta name="keywords" content="merge images, combine images, image merger, online merge tool, photo collage" data-i18n-content="merge.keywords">
     <meta name="author" content="Free Image Tools Online">
     <link rel="canonical" href="https://freeimagetools.online/tools/merge/">
     
@@ -67,43 +67,43 @@
     <main id="main-content">
         <div class="tool-container">
             <div class="tool-header">
-                <h1 class="tool-title">Merge Images</h1>
-                <p class="tool-description">Combine multiple images into one with customizable layouts</p>
+                <h1 class="tool-title" data-i18n="merge.title">Merge Images</h1>
+                <p class="tool-description" data-i18n="merge.description">Combine multiple images into one with customizable layouts</p>
             </div>
             
             <div class="tool-layout">
                 <!-- Controls Panel -->
                 <div class="tool-panel">
-                    <h2 class="tool-panel-title">Merge Settings</h2>
+                    <h2 class="tool-panel-title" data-i18n="merge.settingsTitle">Merge Settings</h2>
                     
                     <!-- File Upload -->
                     <div class="form-group">
-                        <file-drop-zone id="fileDrop" text="Add images to merge" multiple></file-drop-zone>
+                        <file-drop-zone id="fileDrop" text="Add images to merge" multiple data-i18n-text="merge.addImages"></file-drop-zone>
                     </div>
                     
                     <!-- Images List -->
                     <div class="form-group">
-                        <label class="form-label">Images to Merge</label>
+                        <label class="form-label" data-i18n="merge.imagesToMerge">Images to Merge</label>
                         <div class="merge-images-list" id="imagesList">
                             <div class="image-preview-empty">
-                                <p>No images added yet</p>
+                                <p data-i18n="merge.noImagesAdded">No images added yet</p>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Direction -->
                     <div class="form-group">
-                        <label class="form-label" for="mergeDirection">Direction</label>
+                        <label class="form-label" for="mergeDirection" data-i18n="merge.direction">Direction</label>
                         <select id="mergeDirection" class="select-control">
-                            <option value="horizontal">Horizontal</option>
-                            <option value="vertical">Vertical</option>
+                            <option value="horizontal" data-i18n="merge.horizontal">Horizontal</option>
+                            <option value="vertical" data-i18n="merge.vertical">Vertical</option>
                         </select>
                     </div>
                     
                     <!-- Spacing -->
                     <div class="range-group">
                         <div class="range-label">
-                            <span class="range-title">Spacing</span>
+                            <span class="range-title" data-i18n="merge.spacing">Spacing</span>
                             <span class="range-value" id="spacingValue">10px</span>
                         </div>
                         <input type="range" id="spacing" class="range-slider" min="0" max="50" value="10">
@@ -111,24 +111,24 @@
                     
                     <!-- Background Color -->
                     <div class="form-group">
-                        <label class="form-label" for="backgroundColor">Background Color</label>
+                        <label class="form-label" for="backgroundColor" data-i18n="merge.backgroundColor">Background Color</label>
                         <input type="color" id="backgroundColor" class="form-control" value="#ffffff">
                     </div>
                     
                     <!-- Actions -->
                     <div class="tool-actions">
-                        <button id="clearImages" class="btn btn-secondary" disabled>Clear All</button>
-                        <button id="mergeImages" class="btn btn-primary" disabled>Merge Images</button>
-                        <button id="downloadMerged" class="btn btn-success" disabled>Download</button>
+                        <button id="clearImages" class="btn btn-secondary" disabled data-i18n="merge.clearAll">Clear All</button>
+                        <button id="mergeImages" class="btn btn-primary" disabled data-i18n="merge.mergeImages">Merge Images</button>
+                        <button id="downloadMerged" class="btn btn-success" disabled data-i18n="common.download">Download</button>
                     </div>
                 </div>
                 
                 <!-- Preview Panel -->
                 <div class="tool-panel">
-                    <h2 class="tool-panel-title">Preview</h2>
+                    <h2 class="tool-panel-title" data-i18n="common.preview">Preview</h2>
                     <div class="image-preview" id="mergePreview">
                         <div class="image-preview-empty">
-                            <p>Add images to see merge preview</p>
+                            <p data-i18n="merge.addImagesPreview">Add images to see merge preview</p>
                         </div>
                     </div>
                 </div>

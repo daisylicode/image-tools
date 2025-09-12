@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remove Object Online - Free AI Object Removal Tool</title>
-    <meta name="description" content="Free online AI-powered object removal tool. Remove unwanted objects from photos with smart inpainting. No registration required.">
-    <meta name="keywords" content="remove object, object removal, photo editing, AI inpainting, remove people, remove items">
+    <title data-i18n="removeObject.pageTitle">Remove Object Online - Free AI Object Removal Tool</title>
+    <meta name="description" content="Free online AI-powered object removal tool. Remove unwanted objects from photos with smart inpainting. No registration required." data-i18n-content="removeObject.metaDescription">
+    <meta name="keywords" content="remove object, object removal, photo editing, AI inpainting, remove people, remove items" data-i18n-content="removeObject.keywords">
     <meta name="author" content="Free Image Tools Online">
     <link rel="canonical" href="https://freeimagetools.online/tools/remove-object/">
     
@@ -67,13 +67,13 @@
     <main id="main-content">
         <div class="tool-container">
             <div class="tool-header">
-                <h1 class="tool-title">Remove Object</h1>
-                <p class="tool-description">Remove unwanted objects from your photos with AI-powered inpainting</p>
+                <h1 class="tool-title" data-i18n="removeObject.title">Remove Object</h1>
+                <p class="tool-description" data-i18n="removeObject.description">Remove unwanted objects from your photos with AI-powered inpainting</p>
                 <div class="alert alert-warning">
                     <span class="alert-icon">⚠️</span>
                     <div class="alert-content">
-                        <div class="alert-title">Legal Notice</div>
-                        <div class="alert-message">Only remove objects from images you own or have permission to edit.</div>
+                        <div class="alert-title" data-i18n="removeObject.legalNoticeTitle">Legal Notice</div>
+                        <div class="alert-message" data-i18n="removeObject.legalNotice">Only remove objects from images you own or have permission to edit.</div>
                     </div>
                 </div>
             </div>
@@ -81,17 +81,17 @@
             <div class="tool-layout">
                 <!-- Controls Panel -->
                 <div class="tool-panel">
-                    <h2 class="tool-panel-title">Removal Settings</h2>
+                    <h2 class="tool-panel-title" data-i18n="removeObject.settingsTitle">Removal Settings</h2>
                     
                     <!-- File Upload -->
                     <div class="form-group">
-                        <file-drop-zone id="fileDrop" text="Select image to edit"></file-drop-zone>
+                        <file-drop-zone id="fileDrop" text="Select image to edit" data-i18n-text="removeObject.selectImage"></file-drop-zone>
                     </div>
                     
                     <!-- Brush Size -->
                     <div class="range-group">
                         <div class="range-label">
-                            <span class="range-title">Brush Size</span>
+                            <span class="range-title" data-i18n="removeObject.brushSize">Brush Size</span>
                             <span class="range-value" id="brushSizeValue">20px</span>
                         </div>
                         <input type="range" id="brushSize" class="range-slider" min="5" max="100" value="20">
@@ -104,28 +104,28 @@
                     
                     <!-- Inpaint Method -->
                     <div class="form-group">
-                        <label class="form-label" for="inpaintMethod">Inpaint Method</label>
+                        <label class="form-label" for="inpaintMethod" data-i18n="removeObject.inpaintMethod">Inpaint Method</label>
                         <select id="inpaintMethod" class="select-control">
-                            <option value="telea">Telea (Fast)</option>
-                            <option value="navier-stokes">Navier-Stokes (Quality)</option>
-                            <option value="simple">Simple (Basic)</option>
+                            <option value="telea" data-i18n="removeObject.telea">Telea (Fast)</option>
+                            <option value="navier-stokes" data-i18n="removeObject.navierStokes">Navier-Stokes (Quality)</option>
+                            <option value="simple" data-i18n="removeObject.simple">Simple (Basic)</option>
                         </select>
                     </div>
                     
                     <!-- Actions -->
                     <div class="tool-actions">
-                        <button id="clearSelection" class="btn btn-secondary" disabled>Clear Selection</button>
-                        <button id="removeObject" class="btn btn-primary" disabled>Remove Object</button>
-                        <button id="downloadResult" class="btn btn-success" disabled>Download</button>
+                        <button id="clearSelection" class="btn btn-secondary" disabled data-i18n="removeObject.clearSelection">Clear Selection</button>
+                        <button id="removeObject" class="btn btn-primary" disabled data-i18n="removeObject.inpaint">Remove Object</button>
+                        <button id="downloadResult" class="btn btn-success" disabled data-i18n="common.download">Download</button>
                     </div>
                 </div>
                 
                 <!-- Preview Panel -->
                 <div class="tool-panel">
-                    <h2 class="tool-panel-title">Preview</h2>
+                    <h2 class="tool-panel-title" data-i18n="common.preview">Preview</h2>
                     <div class="image-preview" id="removePreview">
                         <div class="image-preview-empty">
-                            <p>Upload an image to start removing objects</p>
+                            <p data-i18n="removeObject.uploadPrompt">Upload an image to start removing objects</p>
                         </div>
                     </div>
                 </div>
