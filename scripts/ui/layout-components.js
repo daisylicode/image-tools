@@ -17,19 +17,19 @@ export class LayoutComponents {
      * 自动检测并替换现有的header和footer
      */
     init() {
-        // 替换现有的header
-        this.header.replace('header')
-        
-        // 替换现有的footer
-        this.footer.replace('footer')
-        
-        // 如果页面中没有header或footer，则添加它们
-        if (!document.querySelector('header')) {
-            this.header.mount('body')
+        // 插入header到header-container
+        const headerContainer = document.getElementById('header-container')
+        if (headerContainer) {
+            headerContainer.innerHTML = this.header.render()
+            this.header.setupEventListeners()
+            this.header.updateI18nContent()
         }
         
-        if (!document.querySelector('footer')) {
-            this.footer.mount('body')
+        // 插入footer到footer-container
+        const footerContainer = document.getElementById('footer-container')
+        if (footerContainer) {
+            footerContainer.innerHTML = this.footer.render()
+            this.footer.updateI18nContent()
         }
         
         // 监听语言切换事件
@@ -41,9 +41,19 @@ export class LayoutComponents {
      */
     setupLanguageListener() {
         window.addEventListener('languageChange', () => {
-            // 重新初始化header和footer以更新语言
-            this.header.replace('header')
-            this.footer.replace('footer')
+            // 重新渲染header和footer以更新语言
+            const headerContainer = document.getElementById('header-container')
+            if (headerContainer) {
+                headerContainer.innerHTML = this.header.render()
+                this.header.setupEventListeners()
+                this.header.updateI18nContent()
+            }
+            
+            const footerContainer = document.getElementById('footer-container')
+            if (footerContainer) {
+                footerContainer.innerHTML = this.footer.render()
+                this.footer.updateI18nContent()
+            }
         })
     }
 

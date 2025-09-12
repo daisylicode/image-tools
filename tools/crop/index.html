@@ -167,6 +167,8 @@
     <!-- Enhanced Crop Tool Script -->
     <script type="module">
         import { I18n } from '/scripts/core/i18n.js'
+        import analytics from '/scripts/core/analytics.js'
+        import { analyticsConfig } from '/scripts/config/analytics-config.js'
         import themeManager from '/scripts/ui/theme.js'
         import toastManager from '/scripts/ui/toasts.js'
         import { ImageUtils } from '/scripts/core/image-utils.js'
@@ -715,6 +717,13 @@
             
             // Initialize i18n
             I18n.init()
+            
+            // Initialize Analytics
+            if (analyticsConfig.enabled && analyticsConfig.measurementId) {
+                analytics.init(analyticsConfig.measurementId)
+                // Track crop tool page view
+                analytics.trackPageView('/tools/crop/', 'Crop Image Online - Free Image Cropping Tool')
+            }
             
             // Initialize theme
             themeManager.init()

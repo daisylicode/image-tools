@@ -299,6 +299,7 @@
     <script type="module" src="/scripts/ui/header.js"></script>
     <script type="module" src="/scripts/ui/footer.js"></script>
     <script type="module" src="/scripts/core/i18n.js"></script>
+    <script type="module" src="/scripts/core/analytics.js"></script>
     <script type="module" src="/scripts/ui/theme.js"></script>
     <script type="module" src="/scripts/ui/toasts.js"></script>
     <script type="module" src="/scripts/ui/layout-components.js"></script>
@@ -306,20 +307,33 @@
     <!-- Initialize -->
     <script type="module">
         import { I18n } from '/scripts/core/i18n.js'
+        import analytics from '/scripts/core/analytics.js'
         import themeManager from '/scripts/ui/theme.js'
         import LayoutComponents from '/scripts/ui/layout-components.js'
         
         // Initialize theme and layout
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             // Initialize i18n first
             I18n.init()
             
-            // Initialize layout components
+            // Initialize layout components first
             const layout = new LayoutComponents()
             layout.init()
             
             // Initialize theme
             themeManager.init()
+            
+            // Initialize Analytics after other components are ready
+            try {
+                const { analyticsConfig } = await import('/scripts/config/analytics-config.js')
+                if (analyticsConfig.enabled && analyticsConfig.measurementId) {
+                    analytics.init(analyticsConfig.measurementId)
+                    // Track homepage view
+                    analytics.trackPageView('/', 'Free Image Tools Online - Professional Image Processing Tools')
+                }
+            } catch (error) {
+                console.warn('Analytics config not found or failed to load:', error)
+            }
         })
     </script>
 </body>
