@@ -66,7 +66,7 @@ export class FooterComponent {
                             <h3 data-i18n="footer.contactTitle">Contact</h3>
                             <div class="contact-info">
                                 <div class="contact-item">
-                                    <strong data-i18n="footer.email">Email:</strong> support@freeimagetools.online
+                                    <strong data-i18n="footer.email">Email:</strong> daisylidev@gmail.com
                                 </div>
                                 <div class="contact-item">
                                     <strong data-i18n="footer.responseTime">Response Time:</strong> <span data-i18n="footer.within24Hours">Within 24 hours</span>
