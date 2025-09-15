@@ -17,5 +17,8 @@ Disallow: /private/
 
 # Disallow dynamic content
 Disallow: /*?
-Disallow: /*.json$
-Disallow: /*.xml$
+
+# Allow sitemap and manifest files
+Allow: /sitemap.xml
+Allow: /manifest.json
+Allow: /schema-org.json
